@@ -1,4 +1,5 @@
 export const Input = ({ ...props }) => {
-  console.log(props);
-  return <input {...props}/>;
+  return <input {...props} />;
 };
+
+Input.displayName = "Input";

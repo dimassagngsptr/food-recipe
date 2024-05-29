@@ -23,16 +23,22 @@ export const NAVAUTH = () => {
   return (
     <main className="px-[10%] py-[4%]">
       <div className="flex gap-4 justify-center">
-        <Button
-          title={"Login"}
-          className={"bg-main-blue rounded text-[#fff] font-semibold px-5 py-2"}
-        />
-        <Button
-          title={"Register"}
-          className={
-            "bg-main-white/70 rounded text-main-blue border border-main-blue font-semibold px-5 py-2"
-          }
-        />
+        <Link href={"/login"}>
+          <Button
+            title={"Login"}
+            className={
+              "bg-main-blue rounded text-[#fff] font-semibold px-5 py-2"
+            }
+          />
+        </Link>
+        <Link href={"/register"}>
+          <Button
+            title={"Register"}
+            className={
+              "bg-main-white/70 rounded text-main-blue border border-main-blue font-semibold px-5 py-2"
+            }
+          />
+        </Link>
       </div>
     </main>
   );
