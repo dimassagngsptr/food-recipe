@@ -1,13 +1,13 @@
 import Image from "next/image";
-import { useRouter } from "next/router";
+import Link from "next/link";
+import { redirect } from "next/navigation";
 
 export const AuthPage = () => {
-  const router = useRouter();
   return (
     <div className="relative bg-main-yellow h-screen w-[40%]">
-      <div
+      <Link
+        href={"/"}
         className="flex gap-2 items-center absolute top-5 left-10 cursor-pointer z-10"
-        onClick={() => router.push("/")}
       >
         <svg
           xmlns="http://www.w3.org/2000/svg"
@@ -24,7 +24,7 @@ export const AuthPage = () => {
           />
         </svg>
         <span className="inline-block text-[#000] text-lg">Home</span>
-      </div>
+      </Link>
       <Image
         src={"/auth/image 15.png"}
         fill={true}

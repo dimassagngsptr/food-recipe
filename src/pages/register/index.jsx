@@ -1,7 +1,7 @@
 import { AuthPage } from "@/components/module/auth";
 import { FormRegister } from "@/components/module/auth/register";
 
-const Register = () => {
+const Page = () => {
   return (
     <div className="flex">
       <AuthPage />
@@ -10,4 +10,4 @@ const Register = () => {
   );
 };
 
-export default Register;
+export default Page;

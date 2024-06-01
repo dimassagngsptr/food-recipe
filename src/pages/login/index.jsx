@@ -1,7 +1,7 @@
 import { AuthPage } from "@/components/module/auth";
 import { FormLogin } from "@/components/module/auth/login";
 
-const Login = () => {
+const Page = () => {
   return (
     <div className="flex">
       <AuthPage />
@@ -10,4 +10,4 @@ const Login = () => {
   );
 };
 
-export default Login;
+export default Page;

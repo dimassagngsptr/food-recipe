@@ -3,49 +3,20 @@ import { Footer } from "@/components/module/footer";
 import { HeroSection } from "@/components/module/landing-page/hero-section";
 import { NewRecipe } from "@/components/module/landing-page/newRecipe-section";
 import { NAVAUTH, NAVLINK } from "@/components/module/navbar";
-import { Inter } from "next/font/google";
+import { api } from "./api/api";
+import { useState } from "react";
 
-const inter = Inter({ subsets: ["latin"] });
+export async function getServerSideProps() {
+  const recipes = await api.get("v1/recipes");
+  return { props: { recipes: recipes?.data?.data } };
+}
 
-export default function Home() {
-  const items = [
-    {
-      image: "/landingpage/Rectangle 314.png",
-      width: 400,
-      height: 400,
-      title: ["Chiken", "Kare"],
-    },
-    {
-      image: "/landingpage/Rectangle 315.png",
-      width: 400,
-      height: 400,
-      title: ["Bomb", "Chiken"],
-    },
-    {
-      image: "/landingpage/Rectangle 316.png",
-      width: 400,
-      height: 400,
-      title: ["Banana", "Smoothie Pop"],
-    },
-    {
-      image: "/landingpage/Rectangle 317.png",
-      width: 400,
-      height: 400,
-      title: ["Coffee Lava", "Cake"],
-    },
-    {
-      image: "/landingpage/Rectangle 318.png",
-      width: 400,
-      height: 400,
-      title: ["Sugar", "Salmon"],
-    },
-    {
-      image: "/landingpage/Rectangle 319.png",
-      width: 400,
-      height: 400,
-      title: ["Indian", "Salad"],
-    },
-  ];
+export default function Home({ recipes }) {
+  const handleLogout = () => {
+    localStorage.clear();
+    window.location.reload();
+  };
+  const [page, setPage] = useState(1);
   return (
     <main className="pb-10">
       <div className="flex">
@@ -54,7 +25,7 @@ export default function Home() {
           <HeroSection />
         </div>
         <div className="bg-main-yellow w-[30%] h-[800px]">
-          <NAVAUTH />
+          <NAVAUTH py={"py-[10%]"} handleLogout={handleLogout} />
         </div>
       </div>
       <NewRecipe />
@@ -66,7 +37,35 @@ export default function Home() {
           </h1>
         </div>
         <div className="grid grid-cols-3 gap-x-3 gap-y-8 pl-[10%] w-full mx-auto bg-main-white pb-28">
-          <Card items={items} />
+          {recipes?.map((item) => (
+            <Card image={item?.image} title={item?.title} id={item?.id} />
+          ))}
+        </div>
+        <div className="flex flex-wrap gap-2 justify-center pb-10 pt-3 bg-main-white">
+          <button
+            disabled={page < 1}
+            onClick={() => setPage((prev) => prev - 1)}
+            className="bg-main-yellow w-10 h-10 rounded flex items-center justify-center text-main-white"
+          >
+            {"<"}
+          </button>
+          {Array.from(new Array(5)).map((_, idx) => (
+            <button
+              onClick={() => setPage(idx)}
+              className={`${
+                page == idx ? "bg-main-blue" : "bg-main-yellow"
+              } w-10 h-10 rounded flex items-center justify-center text-main-white`}
+            >
+              {idx + 1}
+            </button>
+          ))}
+          <button
+            disabled={page > 3}
+            onClick={() => setPage((prev) => prev + 1)}
+            className="bg-main-yellow w-10 h-10 rounded flex items-center justify-center text-main-white"
+          >
+            {">"}
+          </button>
         </div>
         <Footer />
       </div>
