@@ -74,6 +74,7 @@ export default function Page() {
         {/* <button className="font-semibold">My Recipe</button> */}
         {table?.map((items, i) => (
           <button
+            key={i}
             onClick={() => handleClik(items?.route, items?.title)}
             className={`${
               items?.title === currentRoute?.selected
@@ -88,7 +89,7 @@ export default function Page() {
       {loading ? (
         <div className="border-t border-[#0007] flex gap-x-10 px-[10%] py-[3%] mt-2">
           {Array.from(new Array(5)).map((item) => (
-            <Skeleton />
+            <Skeleton key={item}/>
           ))}
         </div>
       ) : (
@@ -97,7 +98,7 @@ export default function Page() {
             <h1 className="text-[#000] text-2xl">Empty item</h1>
           ) : (
             data?.map((items) => (
-              <div className="relative">
+              <div className="relative" key={items?.id}>
                 <button
                   onClick={() => handleDelete(items?.id)}
                   className="bg-[#7C0A02] w-[30px] h-[30px] rounded-full flex items-center justify-center z-10 absolute top-5 right-3 hover:-translate-y-1 transition duration-300"

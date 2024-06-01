@@ -38,7 +38,7 @@ export default function Home({ recipes }) {
         </div>
         <div className="grid grid-cols-3 gap-x-3 gap-y-8 pl-[10%] w-full mx-auto bg-main-white pb-28">
           {recipes?.map((item) => (
-            <Card image={item?.image} title={item?.title} id={item?.id} />
+            <Card image={item?.image} title={item?.title} id={item?.id} key={item?.id}/>
           ))}
         </div>
         <div className="flex flex-wrap gap-2 justify-center pb-10 pt-3 bg-main-white">
