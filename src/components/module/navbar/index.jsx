@@ -1,6 +1,7 @@
 "use client";
 import Button from "@/components/base/button";
-import { useLocalStorage, useLogout } from "@/hooks/useLocalStorage";
+// import { useLocalStorage, useLogout } from "@/hooks/useLocalStorage";
+import { deleteCookie, getCookie } from "@/utils/cookie";
 import Image from "next/image";
 import Link from "next/link";
 import { useState } from "react";
@@ -41,7 +42,7 @@ const Menu = ({ handleLogout }) => {
 };
 
 export const NAVAUTH = ({ py, handleLogout }) => {
-  const token = useLocalStorage("token");
+  const { token } = getCookie();
   const [open, setOpen] = useState(false);
   const handleOpen = () => setOpen(!open);
   return (

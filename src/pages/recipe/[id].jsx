@@ -2,18 +2,26 @@ import { HeaderDetail } from "@/components/module/detail/header";
 import { NAVAUTH, NAVLINK } from "@/components/module/navbar";
 import Image from "next/image";
 import { api } from "../api/api";
-import { useLocalStorage } from "@/hooks/useLocalStorage";
+// import { useLocalStorage } from "@/hooks/useLocalStorage";
 import { Footer } from "@/components/module/footer";
 import Link from "next/link";
+import { getCookie, parseCookies } from "@/utils/cookie";
+import axios from "axios";
 
 export async function getServerSideProps(context) {
   const { id } = context.query;
+  const { req } = context;
+  const cookies = parseCookies(req.headers.cookie);
+  const { token } = cookies;
   const recipes = await api.get(`v1/recipes/${id}`);
-  return { props: { recipes: recipes?.data?.data } };
+  const user = await api.get("/v1/users/profile", {
+    headers: { Authorization: `Bearer ${token}` },
+  });
+  return { props: { recipes: recipes?.data?.data, user: user?.data } };
 }
 
-export default function Page({ recipes }) {
-  const token = useLocalStorage("token");
+export default function Page({ recipes, user }) {
+  const { token } = getCookie();
   const handleLike = async (route) => {
     try {
       const response = await api.post(
@@ -23,6 +31,7 @@ export default function Page({ recipes }) {
           headers: { Authorization: `Bearer ${token}` },
         }
       );
+      await axios.post("/api/like", { id: recipes?.id, user_id:user?.data?.id });
       alert(response?.data?.message);
     } catch (error) {
       console.log(error);

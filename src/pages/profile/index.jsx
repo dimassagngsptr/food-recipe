@@ -3,8 +3,9 @@ import { NAVLINK } from "@/components/module/navbar";
 import Image from "next/image";
 import { useEffect, useState } from "react";
 import { api } from "../api/api";
-import { useLocalStorage } from "@/hooks/useLocalStorage";
+// import { useLocalStorage } from "@/hooks/useLocalStorage";
 import { Skeleton } from "@/components/module/skeleton";
+import { getCookie } from "@/utils/cookie";
 
 export default function Page() {
   const [loading, setLoading] = useState(false);
@@ -14,7 +15,7 @@ export default function Page() {
   });
 
   const [data, setData] = useState([]);
-  const token = useLocalStorage("token");
+  const { token } = getCookie();
   const handleClik = async (route, selected) => {
     setCurrentRoute({ selected: selected, route: route });
     if (route === "") {
@@ -45,7 +46,7 @@ export default function Page() {
   };
 
   const table = [
-    { title: "My Recipe", route: "" },
+    { title: "My Recipe", route: "/v1/recipes/self" },
     { title: "Saved Recipe", route: "/v1/recipes/save" },
     { title: "Like Recipe", route: "/v1/recipes/like" },
   ];
@@ -66,8 +67,8 @@ export default function Page() {
           height={30}
           className="absolute top-[48%] right-[43%] transform -translate-x-1/2 -translate-y-1/2 "
         />
-        <h1 className="absolute top-[55%] right-[40%] -translate-x-1/2 -translate-y-1/2 text-2xl font-semibold my-5">
-          Garneta Sharina
+        <h1 className="absolute top-[55%] right-[42%] -translate-x-1/2 -translate-y-1/2 text-2xl font-semibold my-5">
+          Dimas Ageng
         </h1>
       </div>
       <div className="flex gap-5 px-[10%] text-2xl mt-40">
@@ -89,11 +90,11 @@ export default function Page() {
       {loading ? (
         <div className="border-t border-[#0007] flex gap-x-10 px-[10%] py-[3%] mt-2">
           {Array.from(new Array(5)).map((item) => (
-            <Skeleton key={item}/>
+            <Skeleton key={item} />
           ))}
         </div>
       ) : (
-        <div className="border-t border-[#0007] flex gap-x-10 px-[10%] py-[3%] mt-2 min-h-[500px]">
+        <div className="border-t border-[#0007] flex flex-wrap gap-10 px-[10%] py-[3%] mt-2 min-h-[500px]">
           {data == null ? (
             <h1 className="text-[#000] text-2xl">Empty item</h1>
           ) : (
@@ -118,11 +119,19 @@ export default function Page() {
                     />
                   </svg>
                 </button>
-                <Card
-                  image={items?.recipe?.image}
-                  title={items?.recipe?.title}
-                  id={items?.recipe?.id}
-                />
+                {items?.image ? (
+                  <Card
+                    image={items?.image}
+                    title={items?.title}
+                    href={`/recipe/${items?.id}`}
+                  />
+                ) : (
+                  <Card
+                    image={items?.recipe?.image}
+                    title={items?.recipe?.title}
+                    href={`/recipe/${items?.id}`}
+                  />
+                )}
               </div>
             ))
           )}

@@ -1,8 +1,10 @@
 import { Input } from "@/components/base/input";
+import { useRouter } from "next/router";
 import { useState } from "react";
 
 export const SearchSection = () => {
   const [search, setSearch] = useState("");
+  const router = useRouter();
   return (
     <div className=" flex flex-col w-[64%] gap-y-5">
       <h1 className="text-[72px] text-main-blue font-bold">
@@ -22,7 +24,7 @@ export const SearchSection = () => {
           viewBox="0 0 24 24"
           strokeWidth={1.5}
           stroke="#C4C4C4"
-          onClick={() => alert(search)}
+          onClick={() => router.push(`/search/${search}`)}
           className="w-6 absolute top-5 left-5 cursor-pointer"
         >
           <path

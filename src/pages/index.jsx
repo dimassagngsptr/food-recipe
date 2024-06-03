@@ -5,6 +5,7 @@ import { NewRecipe } from "@/components/module/landing-page/newRecipe-section";
 import { NAVAUTH, NAVLINK } from "@/components/module/navbar";
 import { api } from "./api/api";
 import { useState } from "react";
+import { deleteCookie } from "@/utils/cookie";
 
 export async function getServerSideProps() {
   const recipes = await api.get("v1/recipes");
@@ -13,9 +14,10 @@ export async function getServerSideProps() {
 
 export default function Home({ recipes }) {
   const handleLogout = () => {
-    localStorage.clear();
+    deleteCookie();
     window.location.reload();
   };
+  const data = recipes;
   const [page, setPage] = useState(1);
   return (
     <main className="pb-10">
@@ -37,11 +39,11 @@ export default function Home({ recipes }) {
           </h1>
         </div>
         <div className="grid grid-cols-3 gap-x-3 gap-y-8 pl-[10%] w-full mx-auto bg-main-white pb-28">
-          {recipes?.map((item) => (
+          {data?.map((item) => (
             <Card
               image={item?.image}
               title={item?.title}
-              id={item?.id}
+              href={`/recipe/${item?.id}`}
               key={item?.id}
             />
           ))}

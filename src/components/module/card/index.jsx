@@ -1,11 +1,11 @@
 import Image from "next/image";
 import Link from "next/link";
 
-export const Card = ({ title, image, id }) => {
+export const Card = ({ title, image, href }) => {
   return (
     <>
       <Link
-        href={`/recipe/${id}`}
+        href={href}
         className="relative rounded-md cursor-pointer hover:-translate-y-2 transition duration-300"
       >
         <Image
@@ -15,7 +15,7 @@ export const Card = ({ title, image, id }) => {
           height={400}
           className="w-[400px] h-[400px] rounded-md object-cover opacity-90"
         />
-        <h1 className="absolute bottom-5 text-2xl left-5 font-semibold w-[150px]">
+        <h1 className="absolute bottom-5 text-2xl left-5 font-semibold w-[150px] text-[#fff]">
           {title}
         </h1>
       </Link>

@@ -2,9 +2,9 @@ import Button from "@/components/base/button";
 import { Input } from "@/components/base/input";
 import { Loader } from "@/components/base/loader";
 import { login } from "@/pages/api/login";
+import { setCookie } from "@/utils/cookie";
 import { useFormik } from "formik";
 import Link from "next/link";
-import { redirect } from "next/navigation";
 import { useRouter } from "next/router";
 import { useState } from "react";
 
@@ -34,13 +34,9 @@ export const FormLogin = () => {
     onSubmit: async (values, { resetForm }) => {
       setLoading(true);
       const response = await login(values);
+      setCookie(response?.data?.data, response?.data?.data);
       if (response?.data?.statuCode == 201) {
         alert(response?.data?.message);
-        localStorage.setItem("token", response?.data?.data?.token);
-        localStorage.setItem(
-          "refreshToken",
-          response?.data?.data?.refreshToken
-        );
       } else {
         alert(response?.response?.data?.message);
       }
