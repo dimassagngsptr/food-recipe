@@ -74,6 +74,7 @@ export default function Page() {
                 href={`/recipe/${item?.id}`}
                 image={item?.image}
                 title={item?.title}
+                key={item?.id}
               />
             ))
           ) : (
