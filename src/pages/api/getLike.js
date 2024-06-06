@@ -2,7 +2,7 @@ import fs from "fs";
 import path from "path";
 export default function handler(req, res) {
   const { id, user_id, recipe_id } = req.query;
-  const filePath = path.resolve(process.cwd(), "like.json");
+  const filePath = path.resolve(process.cwd(), "likes.json");
   const fileData = fs.readFileSync(filePath);
   const likes = JSON.parse(fileData);
   const result = likes.filter(

@@ -6,7 +6,8 @@
 .pnp.js
 .yarn/install-state.gz
 # **.json
-/like.json
+
+/likes.json
 /user.json
 
 # testing
