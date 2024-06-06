@@ -3,7 +3,7 @@ import { FormLogin } from "@/components/module/auth/login";
 
 const Page = () => {
   return (
-    <div className="flex">
+    <div className="lg:flex">
       <AuthPage />
       <FormLogin />
     </div>

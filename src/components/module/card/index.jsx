@@ -6,10 +6,14 @@ export const Card = ({ title, image, href }) => {
     <>
       <Link
         href={href}
-        className="relative rounded-md cursor-pointer hover:-translate-y-2 transition duration-300"
+        className="relative rounded-md cursor-pointer lg:hover:-translate-y-2 transition duration-300"
       >
         <Image
-          src={image?.length < 5 ? "/landingpage/Rectangle 314.png" : image}
+          src={
+            image === "" || image === null || image?.length < 5
+              ? "/landingpage/Rectangle 314.png"
+              : image
+          }
           quality={100}
           width={400}
           height={400}

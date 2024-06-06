@@ -1,4 +1,4 @@
-import { api } from "./api";
+import { api } from "../pages/api/api";
 import * as Yup from "yup";
 
 export async function register(data) {

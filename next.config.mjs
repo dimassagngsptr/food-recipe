@@ -2,31 +2,18 @@
 const nextConfig = {
   reactStrictMode: true,
   images: {
-    remotePatterns: [
-      {
-        protocol: "https",
-        hostname: "**.com",
-        port: "",
-        pathname: "/**",
-      },
-      {
-        protocol: "http",
-        hostname: "**.com",
-        port: "",
-        pathname: "/**",
-      },
-      {
-        protocol: "https",
-        hostname: "cdn1-production-images-kly.akamaized.net",
-        port: "",
-        pathname: "/**",
-      },
-      {
-        protocol: "https",
-        hostname: "awsimages.detik.net.id",
-        port: "",
-        pathname: "/**",
-      },
+    domains: [
+      "img.kurio.network",
+      "res.cloudinary.com",
+      "cdn1-production-images-kly.akamaized.net",
+      "awsimages.detik.net.id",
+      "asset-2.tstatic.net",
+      "statics.indozone.news",
+      "google.com",
+      "img-global.cpcdn.com",
+      "asset.kompas.com",
+      "thumb.viva.id",
+      "i.ytimg.com",
     ],
   },
 };

@@ -1,13 +1,15 @@
 import { Card } from "@/components/module/card";
 import { NAVLINK } from "@/components/module/navbar";
 import Image from "next/image";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { api } from "../api/api";
-// import { useLocalStorage } from "@/hooks/useLocalStorage";
 import { Skeleton } from "@/components/module/skeleton";
 import { getCookie } from "@/utils/cookie";
+import { useSelector } from "react-redux";
+import { Footer } from "@/components/module/footer";
 
 export default function Page() {
+  const user = useSelector((state) => state.user);
   const [loading, setLoading] = useState(false);
   const [currentRoute, setCurrentRoute] = useState({
     selected: "My Recipe",
@@ -50,11 +52,10 @@ export default function Page() {
     { title: "Saved Recipe", route: "/v1/recipes/save" },
     { title: "Like Recipe", route: "/v1/recipes/like" },
   ];
-
   return (
     <main>
       <NAVLINK />
-      <div className="w-full my-20">
+      <div className="relative flex flex-col items-center justify-center w-full h-[300px] lg:h-[300px]">
         <Image
           src={"/profile/Ellipse 127.png"}
           width={172}
@@ -65,14 +66,13 @@ export default function Page() {
           src={"/profile/edit-3.svg"}
           width={30}
           height={30}
-          className="absolute top-[48%] right-[43%] transform -translate-x-1/2 -translate-y-1/2 "
+          className="absolute right-[25%] bottom-[20%] lg:top-[60%] lg:right-[43%] transform -translate-x-1/2 -translate-y-1/2 "
         />
-        <h1 className="absolute top-[55%] right-[42%] -translate-x-1/2 -translate-y-1/2 text-2xl font-semibold my-5">
-          Dimas Ageng
+        <h1 className="text-2xl font-semibold my-5">
+          {user?.data?.data?.name}
         </h1>
       </div>
-      <div className="flex gap-5 px-[10%] text-2xl mt-40">
-        {/* <button className="font-semibold">My Recipe</button> */}
+      <div className="flex gap-8 px-[10%] text-2xl lg:mt-20">
         {table?.map((items, i) => (
           <button
             key={i}
@@ -81,22 +81,25 @@ export default function Page() {
               items?.title === currentRoute?.selected
                 ? "font-semibold"
                 : "font-normal text-[#666666]"
-            }`}
+            } text-[16px] lg:text-xl`}
           >
             {items?.title}
           </button>
         ))}
       </div>
       {loading ? (
-        <div className="border-t border-[#0007] flex gap-x-10 px-[10%] py-[3%] mt-2">
+        <div className="border-t border-[#0007] flex flex-wrap gap-x-10 px-[10%] py-[3%] mt-8">
           {Array.from(new Array(5)).map((item) => (
             <Skeleton key={item} />
           ))}
         </div>
       ) : (
-        <div className="border-t border-[#0007] flex flex-wrap gap-10 px-[10%] py-[3%] mt-2 min-h-[500px]">
-          {data == null ? (
-            <h1 className="text-[#000] text-2xl">Empty item</h1>
+        <div className="border-t border-[#0007] flex flex-wrap gap-5 px-3 lg:gap-10 lg:px-[10%] py-[3%] my-8 min-h-[500px]">
+          {data && data?.length <= 0 ? (
+            <div className="flex flex-col lg:justify-center items-center lg:w-full lg:h-full">
+              <h1 className="lg:text-xl">Opss you dont have item now</h1>
+              <Image src={"/profile/empty.jpg"} width={400} height={400} />
+            </div>
           ) : (
             data?.map((items) => (
               <div className="relative" key={items?.id}>
@@ -119,16 +122,22 @@ export default function Page() {
                     />
                   </svg>
                 </button>
-                {items?.image ? (
+                {items?.image == "" ? (
                   <Card
-                    image={items?.image}
+                    image={"/landingpage/burger.png"}
                     title={items?.title}
+                    href={`/recipe/${items?.id}`}
+                  />
+                ) : items?.recipe?.image ? (
+                  <Card
+                    image={items?.recipe?.image}
+                    title={items?.recipe?.title}
                     href={`/recipe/${items?.id}`}
                   />
                 ) : (
                   <Card
-                    image={items?.recipe?.image}
-                    title={items?.recipe?.title}
+                    image={items?.image}
+                    title={items?.title}
                     href={`/recipe/${items?.id}`}
                   />
                 )}
@@ -137,6 +146,7 @@ export default function Page() {
           )}
         </div>
       )}
+      <Footer />
     </main>
   );
 }

@@ -2,37 +2,74 @@ import { HeaderDetail } from "@/components/module/detail/header";
 import { NAVAUTH, NAVLINK } from "@/components/module/navbar";
 import Image from "next/image";
 import { api } from "../api/api";
-// import { useLocalStorage } from "@/hooks/useLocalStorage";
 import { Footer } from "@/components/module/footer";
 import Link from "next/link";
-import { getCookie, parseCookies } from "@/utils/cookie";
+import { getCookie } from "@/utils/cookie";
 import axios from "axios";
+import { useSelector } from "react-redux";
+import { useRouter } from "next/router";
+import { useEffect, useState } from "react";
 
-export async function getServerSideProps(context) {
-  const { id } = context.query;
-  const { req } = context;
-  const cookies = parseCookies(req.headers.cookie);
-  const { token } = cookies;
-  const recipes = await api.get(`v1/recipes/${id}`);
-  const user = await api.get("/v1/users/profile", {
-    headers: { Authorization: `Bearer ${token}` },
-  });
-  return { props: { recipes: recipes?.data?.data, user: user?.data } };
-}
-
-export default function Page({ recipes, user }) {
+export default function Page() {
+  const [recipe, setRecipe] = useState({});
+  const [like, setLike] = useState(false);
+  const { likeRecepi } = useSelector((state) => state.user);
+  const { query } = useRouter();
   const { token } = getCookie();
+  const { data } = useSelector((state) => state.user);
+  const getLikeLocal = async () => {
+    const id = likeRecepi?.data?.find((item) => item?.recipe_id === query?.id);
+    try {
+      const like = await axios.get("/api/getLike", {
+        params: {
+          id: id?.id,
+          user_id: data?.data?.id,
+          recipe_id: query?.id,
+        },
+      });
+      if (like?.data?.length > 0) {
+        setLike(true);
+      }
+    } catch (error) {
+      return error;
+    }
+  };
+  const detailRecipes = async () => {
+    try {
+      const res = await api.get(`v1/recipes/${query?.id}`);
+      setRecipe(res?.data?.data);
+    } catch (error) {
+      console.log(error);
+    }
+  };
   const handleLike = async (route) => {
     try {
-      const response = await api.post(
-        `v1/${route}`,
-        { recipe_id: recipes?.id },
-        {
+      if (like == true) {
+        const id = likeRecepi?.data?.find(
+          (item) => item?.recipe_id === query?.id
+        );
+        console.log(id);
+        const response = await api.delete(`v1/${route}/${id?.id}`, {
           headers: { Authorization: `Bearer ${token}` },
-        }
-      );
-      await axios.post("/api/like", { id: recipes?.id, user_id:user?.data?.id });
-      alert(response?.data?.message);
+        });
+        alert(response?.data?.message);
+        setLike(false);
+      } else {
+        const response = await api.post(
+          `v1/${route}`,
+          { recipe_id: recipe?.id },
+          {
+            headers: { Authorization: `Bearer ${token}` },
+          }
+        );
+        await axios.post("/api/like", {
+          id: response?.data?.data?.id,
+          recipe_id: recipe?.id,
+          user_id: data?.data?.id,
+        });
+        alert(response?.data?.message);
+        setLike(true);
+      }
     } catch (error) {
       console.log(error);
     }
@@ -63,6 +100,10 @@ export default function Page({ recipes, user }) {
         "Beef Steak with Curry Sauce - [Step 7] Roast beef until it’s medium rare",
     },
   ];
+  useEffect(() => {
+    detailRecipes();
+    getLikeLocal();
+  }, [query?.id]);
   return (
     <main>
       <div className="flex justify-between">
@@ -70,13 +111,14 @@ export default function Page({ recipes, user }) {
         <NAVAUTH py="py-[3%]" />
       </div>
       <HeaderDetail
-        image={recipes?.image}
-        title={recipes?.title}
+        image={recipe?.image}
+        title={recipe?.title}
         handleLike={handleLike}
+        like={like}
       />
       <div className="flex flex-col mx-auto w-2/3 px-[3%]">
         <h1 className="font-semibold text-4xl text-[#000] mb-5">Ingredients</h1>
-        {recipes?.description?.split(/[\n:]/).map((item, i) => (
+        {recipe?.description?.split(/[\n:]/).map((item, i) => (
           <p key={i} className="text-3xl w-1/2 py-1">
             - {item}
           </p>
@@ -107,7 +149,7 @@ export default function Page({ recipes, user }) {
               </svg>
             </div>
             <Link
-              href={`/recipe/video/${recipes?.id}`}
+              href={`/recipe/video/${recipe?.id}`}
               className="font-semibold text-xl w-1/3 py-5 cursor-pointer hover:underline"
             >
               {item?.title}

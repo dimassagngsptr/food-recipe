@@ -4,42 +4,49 @@ import { HeroSection } from "@/components/module/landing-page/hero-section";
 import { NewRecipe } from "@/components/module/landing-page/newRecipe-section";
 import { NAVAUTH, NAVLINK } from "@/components/module/navbar";
 import { api } from "./api/api";
-import { useState } from "react";
-import { deleteCookie } from "@/utils/cookie";
+import { HamburgerMenu } from "@/components/module/hamburger";
+import Image from "next/image";
+import Link from "next/link";
 
 export async function getServerSideProps() {
-  const recipes = await api.get("v1/recipes");
-  return { props: { recipes: recipes?.data?.data } };
+  try {
+    const recipes = await api.get("v1/recipes");
+    return { props: { recipes: recipes?.data?.data } };
+  } catch (error) {
+    console.error("Failed to fetch recipes:", error);
+    return { props: { recipes: [] } };
+  }
 }
 
-export default function Home({ recipes }) {
-  const handleLogout = () => {
-    deleteCookie();
-    window.location.reload();
-  };
-  const data = recipes;
-  const [page, setPage] = useState(1);
+export default function Page({ recipes }) {
   return (
     <main className="pb-10">
+      <div className="bg-main-yellow h-16 w-full flex justify-between pl-10 lg:hidden">
+        <Image src={"/auth/Group 697.svg"} width={30} height={30} alt="Logo" />
+        <HamburgerMenu />
+      </div>
       <div className="flex">
-        <div className="bg-main-white w-[90%] h-[800px] flex flex-col justify-between">
+        <div className="hidden w-full bg-main-white lg:w-[90%] h-[800px] lg:flex flex-col justify-between">
           <NAVLINK />
           <HeroSection />
         </div>
-        <div className="bg-main-yellow w-[30%] h-[800px]">
-          <NAVAUTH py={"py-[10%]"} handleLogout={handleLogout} />
+        <div className="py-8 bg-main-white block w-full container lg:hidden">
+          <HeroSection />
+        </div>
+        <div className="hidden lg:block bg-main-yellow lg:w-[30%] h-[800px]">
+          <NAVAUTH py={"py-[10%]"} />
         </div>
       </div>
-      <NewRecipe />
-      <div className="bg-main-white pt-60 h-screen">
+      <NewRecipe recipes={recipes} />
+      <div className="bg-main-white lg:pt-60 h-screen">
         <div className="pl-[8%] py-10 flex gap-5 items-center">
-          <div className="h-36 w-6 bg-main-yellow"></div>
-          <h1 className="font-semibold text-[48px] text-[#3F3A3A]">
+          <div className="h-14 w-4 lg:h-36 lg:w-6 bg-main-yellow"></div>
+          <h1 className="font-semibold text-2xl lg:text-[48px] text-[#3F3A3A]">
             Popular Recipe
           </h1>
         </div>
-        <div className="grid grid-cols-3 gap-x-3 gap-y-8 pl-[10%] w-full mx-auto bg-main-white pb-28">
-          {data?.map((item) => (
+        <div className="grid grid-cols-1 lg:grid-cols-3 gap-x-3 gap-y-8 px-5 lg:pl-[10%] w-full mx-auto bg-main-white pb-28">
+          {recipes?.map((item) => (
             <Card
               image={item?.image}
               title={item?.title}
@@ -48,32 +55,13 @@ export default function Home({ recipes }) {
             />
           ))}
         </div>
-        <div className="flex flex-wrap gap-2 justify-center pb-10 pt-3 bg-main-white">
-          <button
-            disabled={page < 1}
-            onClick={() => setPage((prev) => prev - 1)}
-            className="bg-main-yellow w-10 h-10 rounded flex items-center justify-center text-main-white"
+        <div className="py-10 flex justify-center bg-main-white">
+          <Link
+            href={`/search/recipes?page=1`}
+            className="-mt-10 mx-auto bg-main-yellow py-5 px-12 rounded text-[#fff] font-semibold"
           >
-            {"<"}
-          </button>
-          {Array.from(new Array(5)).map((_, idx) => (
-            <button
-              key={idx}
-              onClick={() => setPage(idx)}
-              className={`${
-                page == idx ? "bg-main-blue" : "bg-main-yellow"
-              } w-10 h-10 rounded flex items-center justify-center text-main-white`}
-            >
-              {idx + 1}
-            </button>
-          ))}
-          <button
-            disabled={page > 3}
-            onClick={() => setPage((prev) => prev + 1)}
-            className="bg-main-yellow w-10 h-10 rounded flex items-center justify-center text-main-white"
-          >
-            {">"}
-          </button>
+            See More
+          </Link>
         </div>
         <Footer />
       </div>

@@ -1,13 +1,12 @@
 import Image from "next/image";
 import Link from "next/link";
-import { redirect } from "next/navigation";
 
 export const AuthPage = () => {
   return (
-    <div className="relative bg-main-yellow h-screen w-[40%]">
+    <div className="absolute lg:relative bg-main-yellow/30 lg:bg-main-yellow/70 min-h-screen -z-10 lg:z-0 w-full lg:w-[40%]">
       <Link
         href={"/"}
-        className="flex gap-2 items-center absolute top-5 left-10 cursor-pointer z-10"
+        className="hidden lg:flex gap-2 items-center absolute top-5 left-5 lg:left-10 cursor-pointer z-10"
       >
         <svg
           xmlns="http://www.w3.org/2000/svg"
@@ -28,7 +27,7 @@ export const AuthPage = () => {
       <Image
         src={"/auth/image 15.png"}
         fill={true}
-        className="h-full w-full opacity-30 object-cover bg-no-repeat"
+        className="h-full w-full opacity-30 lg:opacity-30 object-cover bg-no-repeat"
       />
       <Image
         src={"/auth/Group 697.svg"}

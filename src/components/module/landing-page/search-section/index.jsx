@@ -5,12 +5,23 @@ import { useState } from "react";
 export const SearchSection = () => {
   const [search, setSearch] = useState("");
   const router = useRouter();
+
+  const handleSearch = () => {
+    if (search != "") {
+      return router.push(`/search/${search}`);
+    }
+    router.push({
+      pathname: `/search/recipes`,
+      query: { page: 1 },
+    });
+  };
+
   return (
-    <div className=" flex flex-col w-[64%] gap-y-5">
-      <h1 className="text-[72px] text-main-blue font-bold">
+    <div className=" flex flex-col w-full items-center lg:w-[64%] gap-y-5">
+      <h1 className="text-2xl lg:text-[72px] text-main-blue font-bold lg:leading-tight">
         Discover Recipe <br />& Delicious Food
       </h1>
-      <div className="relative w-full pr-10">
+      <div className="relative w-full px-5 lg:pr-10">
         <Input
           className="bg-[#fff] px-16 py-5 outline-none rounded-md w-full"
           placeholder="Search Recipe"
@@ -24,8 +35,8 @@ export const SearchSection = () => {
           viewBox="0 0 24 24"
           strokeWidth={1.5}
           stroke="#C4C4C4"
-          onClick={() => router.push(`/search/${search}`)}
-          className="w-6 absolute top-5 left-5 cursor-pointer"
+          onClick={handleSearch}
+          className="w-6 absolute top-5 left-10 lg:left-10 cursor-pointer"
         >
           <path
             strokeLinecap="round"

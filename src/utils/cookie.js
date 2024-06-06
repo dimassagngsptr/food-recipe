@@ -1,7 +1,6 @@
 import Cookies from "js-cookie";
 
-export const setCookie = ({ token, refreshToken }) => {
-  console.log(token, refreshToken);
+export const setCookie = (token, refreshToken) => {
   Cookies.set("token", token);
   Cookies.set("refreshToken", refreshToken);
 };

@@ -1,13 +1,55 @@
 import Button from "@/components/base/button";
 import { Input } from "@/components/base/input";
 import { Loader } from "@/components/base/loader";
-import { register, validateRegister } from "@/pages/api/register";
+import { register, validateRegister } from "@/utils/register";
+import { auth, provider } from "@/services/firebase";
+import { signInWithPopup } from "firebase/auth";
 import { useFormik } from "formik";
+import Image from "next/image";
 import Link from "next/link";
 import { useState } from "react";
+import { GoogleRegister } from "./GoogleRegister";
+import axios from "axios";
+import { useRouter } from "next/router";
+import { useDispatch, useSelector } from "react-redux";
+import { authRegister, authRegisterGoogle } from "@/redux/features/authSlice";
 
 export const FormRegister = () => {
-  const [loading, setLoading] = useState(false);
+  const dispatch = useDispatch();
+  const { loading } = useSelector((state) => state.auth);
+  const router = useRouter();
+  const [socialRegister, setSocialRegister] = useState({
+    name: "",
+    email: "",
+    password: "",
+    phone: "",
+  });
+  const popupGoogle = async () => {
+    try {
+      const response = await signInWithPopup(auth, provider);
+      setSocialRegister({
+        name: response?.user?.displayName,
+        email: response?.user?.email,
+      });
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+  const handleChangeRegisterGoogle = (e) => {
+    setSocialRegister({
+      ...socialRegister,
+      [e?.target?.name]: e?.target?.value,
+    });
+  };
+  const handleRegister = async () => {
+    try {
+      const response = await dispatch(authRegisterGoogle(socialRegister));
+      console.log(response);
+    } catch (error) {
+      alert(error?.response?.data?.message);
+    }
+  };
   const field = [
     { label: "Name", name: "name", type: "text", placeholder: "Name" },
     {
@@ -68,117 +110,146 @@ export const FormRegister = () => {
         phone: values.phone,
         password: values.password,
       };
-      setLoading(true);
-      const response = await register(data);
-      if (response?.data?.statuCode == 201) {
-        alert(response?.data?.message);
-      } else {
-        alert(response?.response?.data?.message);
+      const response = await dispatch(authRegister(data));
+      if (response?.payload?.statuCode != 201) {
+        return alert(response?.payload);
       }
-      setLoading(false);
+      alert(response?.payload?.message);
       resetForm();
     },
   });
   return (
-    <div className="flex flex-col justify-center w-3/5 items-center">
-      <div className="text-center">
-        <h1 className="text-main-yellow font-bold text-2xl my-3">
+    <div className="flex flex-col justify-center w-full lg:w-3/5 items-center">
+      <div
+        className={`${
+          socialRegister?.email != ""
+            ? "text-center mt-48 lg:mt-0"
+            : "text-center mt-6 lg:mt-0"
+        }`}
+      >
+        <h1 className="lg:text-main-yellow font-bold text-2xl my-3">
           Let’s Get Started !
         </h1>
-        <p className="text-[#8692A6]">
+        <p className="lg:text-[#8692A6]">
           Create new account to access all features
         </p>
       </div>
-      <form
-        className="flex flex-col justify-start w-1/2 px-5 my-5"
-        onSubmit={formik.handleSubmit}
+      <div
+        onClick={popupGoogle}
+        className={`${
+          socialRegister?.email === ""
+            ? "cursor-pointer px-3 mt-5 py-2 flex justify-center items-center gap-3 lg:w-1/3 mx-auto border border-[#8692A6]"
+            : "hidden"
+        }`}
       >
-        {field?.map((item, i) =>
-          item?.name === "password" ? (
-            <div key={i} className="relative flex flex-col">
-              <label htmlFor="password" className="text-[#8692A6]">
-                Create New Password
-              </label>
-              <Input
-                onChange={formik.handleChange}
-                onBlur={formik.handleBlur}
-                value={formik?.values?.password}
-                name="password"
-                type={showPassword?.type}
-                placeholder="Create New Password"
-                className="border border-[#8692A6] py-3 px-5 rounded outline-1 outline-main-yellow my-2 focus:shadow-lg"
-              />
-              <svg
-                xmlns="http://www.w3.org/2000/svg"
-                fill="none"
-                viewBox="0 0 24 24"
-                strokeWidth={1.5}
-                onClick={handleShowPassword}
-                stroke="currentColor"
-                className="size-6 absolute right-5 top-1/2 cursor-pointer"
-              >
-                <path
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                  d={showPassword?.d}
+        <Image src={"/auth/google.png"} width={20} height={20} />
+        <p className="text-[#000] lg:text-[#8692A6]">Sign in with Google</p>
+      </div>
+      {socialRegister?.name != "" && socialRegister?.email != "" ? (
+        <GoogleRegister
+          socialRegister={socialRegister}
+          handleChangeRegisterGoogle={handleChangeRegisterGoogle}
+          loading={loading}
+          handleRegister={handleRegister}
+        />
+      ) : (
+        <form
+          className="flex flex-col justify-start w-full lg:w-1/2 px-5 my-5"
+          onSubmit={formik.handleSubmit}
+        >
+          {field?.map((item, i) =>
+            item?.name === "password" ? (
+              <div key={i} className="relative flex flex-col">
+                <label
+                  htmlFor="password"
+                  className="text-[#000] lg:text-[#8692A6]"
+                >
+                  Create New Password
+                </label>
+                <Input
+                  onChange={formik.handleChange}
+                  onBlur={formik.handleBlur}
+                  value={formik?.values?.password}
+                  name="password"
+                  type={showPassword?.type}
+                  placeholder="Create New Password"
+                  className="border border-[#8692A6] py-3 px-5 rounded outline-1 outline-main-yellow my-2 focus:shadow-lg"
                 />
-                <path
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                  d="M15 12a3 3 0 1 1-6 0 3 3 0 0 1 6 0Z"
-                />
-              </svg>
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  fill="none"
+                  viewBox="0 0 24 24"
+                  strokeWidth={1.5}
+                  onClick={handleShowPassword}
+                  stroke="currentColor"
+                  className="size-6 absolute right-5 top-1/2 cursor-pointer"
+                >
+                  <path
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    d={showPassword?.d}
+                  />
+                  <path
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    d="M15 12a3 3 0 1 1-6 0 3 3 0 0 1 6 0Z"
+                  />
+                </svg>
 
-              {formik.touched.password && formik.errors.password && (
-                <div className="text-[#f82d2d] text-[12px]">
-                  {formik.errors.password}
-                </div>
-              )}
-            </div>
-          ) : (
-            <div key={i} className="relative flex flex-col">
-              <label htmlFor={item?.name} className="text-[#8692A6]">
-                {item?.label}
-              </label>
-              <Input
-                onChange={formik.handleChange}
-                onBlur={formik.handleBlur}
-                value={formik?.values[item?.name]}
-                name={item?.name}
-                type={item?.type}
-                placeholder={item?.placeholder}
-                className="border border-[#8692A6] py-3 px-5 rounded outline-1 outline-main-yellow my-2 focus:shadow-lg"
-              />
-              {formik.touched[item?.name] && formik.errors[item?.name] && (
-                <div className="text-[#f82d2d] text-[12px]">
-                  {formik.errors[item?.name]}
-                </div>
-              )}
-            </div>
-          )
-        )}
-        <label className="inline-flex gap-2 items-center my-4">
-          <Input type="checkbox" className="w-4 h-4" />
-          <span>I agree to terms & conditions</span>
-        </label>
-        <div className="my-5">
-          <Button
-            disabled={loading}
-            type="submit"
-            className="bg-main-yellow/90 w-full py-3 text-[#fff] font-semibold rounded hover:bg-main-yellow"
-            title={loading === false ? "Register" : <Loader />}
-          />
-          <span className="inline-block text-center w-full text-[#8692A6] text-sm my-3">
-            Already have account?{" "}
-            <Link
-              className="text-main-yellow cursor-pointer hover:underline"
-              href={"/login"}
-            >
-              Log in Here
-            </Link>
-          </span>
-        </div>
-      </form>
+                {formik.touched.password && formik.errors.password && (
+                  <div className="text-[#f82d2d] text-[12px]">
+                    {formik.errors.password}
+                  </div>
+                )}
+              </div>
+            ) : (
+              <div key={i} className="relative flex flex-col">
+                <label
+                  htmlFor={item?.name}
+                  className="text-[#000] lg:text-[#8692A6]"
+                >
+                  {item?.label}
+                </label>
+                <Input
+                  onChange={formik.handleChange}
+                  onBlur={formik.handleBlur}
+                  value={formik?.values[item?.name]}
+                  name={item?.name}
+                  type={item?.type}
+                  placeholder={item?.placeholder}
+                  className="border border-[#8692A6] py-3 px-5 rounded outline-1 outline-main-yellow my-2 focus:shadow-lg"
+                />
+                {formik.touched[item?.name] && formik.errors[item?.name] && (
+                  <div className="text-[#f82d2d] text-[12px]">
+                    {formik.errors[item?.name]}
+                  </div>
+                )}
+              </div>
+            )
+          )}
+          <label className="inline-flex gap-2 items-center my-4">
+            <Input type="checkbox" className="w-4 h-4" />
+            <span>I agree to terms & conditions</span>
+          </label>
+          <div className="my-5">
+            <Button
+              disabled={loading}
+              type="submit"
+              className="bg-main-yellow/90 w-full py-3 text-[#fff] font-semibold rounded hover:bg-main-yellow"
+              title={loading === false ? "Register" : <Loader />}
+            />
+            <span className="inline-block text-center w-full lg:text-[#8692A6] text-sm my-3">
+              Already have account?{" "}
+              <Link
+                className="text-main-blue lg:text-main-yellow cursor-pointer hover:underline"
+                href={"/login"}
+              >
+                Log in Here
+              </Link>
+            </span>
+          </div>
+        </form>
+      )}
     </div>
   );
 };

@@ -1,6 +1,5 @@
 "use client";
 import Button from "@/components/base/button";
-// import { useLocalStorage, useLogout } from "@/hooks/useLocalStorage";
 import { deleteCookie, getCookie } from "@/utils/cookie";
 import Image from "next/image";
 import Link from "next/link";
@@ -41,10 +40,14 @@ const Menu = ({ handleLogout }) => {
   );
 };
 
-export const NAVAUTH = ({ py, handleLogout }) => {
+export const NAVAUTH = ({ py }) => {
   const { token } = getCookie();
   const [open, setOpen] = useState(false);
   const handleOpen = () => setOpen(!open);
+  const handleLogout = () => {
+    deleteCookie();
+    window.location.reload();
+  };
   return (
     <main className={`${token && `px-[10%] ${py}`} px-[10%] ${py}`}>
       <div className="flex gap-4 justify-center">

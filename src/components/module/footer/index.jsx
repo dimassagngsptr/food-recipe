@@ -20,15 +20,15 @@ export const Footer = () => {
     },
   ];
   return (
-    <div className="h-[385px] w-full bg-main-yellow flex flex-col items-center justify-center">
+    <div className="h-[250px] lg:h-[385px] w-full bg-main-yellow flex flex-col items-center justify-center">
       <div className="flex flex-col justify-between h-[90%] pt-[5%] ">
-        <div className="flex flex-col items-center gap-8">
-          <h1 className="text-main-blue text-6xl">Eat, Cook, Repeat</h1>
-          <p className="text-[#707070] text-xl">
+        <div className="flex flex-col items-center gap-5 lg:gap-8">
+          <h1 className="text-main-blue text-3xl lg:text-6xl">Eat, Cook, Repeat</h1>
+          <p className="text-[#707070] text-md lg:text-xl">
             Share your best recipe by uploading here !
           </p>
         </div>
-        <div className="flex justify-center gap-10">
+        <div className="flex justify-center gap-5 lg:gap-10">
           {items?.map(({ title, link }, idx) => (
             <Link href={link} key={idx} className="text-[#707070]">
               {title}

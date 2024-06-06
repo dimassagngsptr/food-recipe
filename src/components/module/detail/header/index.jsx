@@ -2,16 +2,15 @@ import Image from "next/image";
 import { useState } from "react";
 import { Bookmark } from "../bookmark";
 import { Like } from "../like";
+import { useRouter } from "next/router";
 
-export const HeaderDetail = ({ image, title, handleLike }) => {
+export const HeaderDetail = ({ image, title, handleLike, like }) => {
   const [save, setSave] = useState(false);
-  const [like, setLike] = useState(false);
   const handleBookmarkClick = () => {
     setSave(!save);
     handleLike("recipes/save");
   };
   const handleLikeClick = () => {
-    setLike(!like);
     handleLike("recipes/like");
   };
   return (
