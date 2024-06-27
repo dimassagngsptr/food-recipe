@@ -22,6 +22,7 @@ export default function Page() {
   const [like, setLike] = useState(false);
   const [save, setSave] = useState(false);
   const { likeRecepi, saveRecepi } = useSelector((state) => state.user);
+  console.log(likeRecepi, saveRecepi);
   const { query } = useRouter();
   const { token } = getCookie();
   const { data } = useSelector((state) => state.user);
@@ -52,7 +53,8 @@ export default function Page() {
           recipe_id: query?.id,
         },
       });
-
+      console.log(save);
+      console.log(save?.data?.length > 0);
       if (save?.data?.length > 0) {
         setSave(true);
       }
@@ -90,17 +92,23 @@ export default function Page() {
           }
         );
         console.log(query?.id);
-        await axios.post("/api/like", {
-          id: response?.data?.data?.id,
-          recipe_id: recipe?.id,
-          user_id: data?.data?.id,
-        });
+
         alert(response?.data?.message);
         console.log(recipe?.id);
         if (route === "recipes/save") {
           setSave(true);
+          await axios.post("/api/save", {
+            id: response?.data?.data?.id,
+            recipe_id: recipe?.id,
+            user_id: data?.data?.id,
+          });
         } else {
           setLike(true);
+          await axios.post("/api/like", {
+            id: response?.data?.data?.id,
+            recipe_id: recipe?.id,
+            user_id: data?.data?.id,
+          });
         }
         return;
       }
@@ -151,6 +159,9 @@ export default function Page() {
     detailRecipes();
     getLikeLocal();
     getSaveLokal();
+    dispatch(getDetailUser());
+    dispatch(getMyLikeRecepi());
+    dispatch(getMySaveRecepi());
   }, [query?.id]);
   return (
     <main>

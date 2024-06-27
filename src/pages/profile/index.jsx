@@ -154,7 +154,7 @@ export default function Page() {
                       style={
                         "absolute bottom-5 text-2xl left-5 font-semibold w-[150px] text-[#fff] lg:bottom-10 lg:text-xl 2xl:bottom-5 2xl:left-3 lg:left-10"
                       }
-                      href={`/recipe/${items?.id}`}
+                      href={`/recipe/${items?.recipe?.id}`}
                     />
                   )
                 ) : currentRoute?.selected === "My Recipe" ? (

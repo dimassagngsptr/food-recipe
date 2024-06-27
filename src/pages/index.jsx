@@ -55,6 +55,9 @@ export default function Page() {
               title={item?.title}
               href={`/recipe/${item?.id}`}
               key={item?.id}
+              style={
+                "absolute bottom-5 text-2xl left-5 font-semibold w-[150px] text-[#fff] lg:bottom-40 lg:text-xl 2xl:bottom-5 2xl:left-3 lg:left-10"
+              }
             />
           ))}
         </div>

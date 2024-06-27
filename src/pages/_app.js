@@ -7,6 +7,7 @@ import {
 import { useStore } from "@/redux/store";
 import "@/styles/globals.css";
 import { getCookie } from "@/utils/cookie";
+import Head from "next/head";
 import { useEffect } from "react";
 import { Provider, useDispatch } from "react-redux";
 function MyApp({ Component, pageProps }) {
@@ -14,6 +15,9 @@ function MyApp({ Component, pageProps }) {
 
   return (
     <Provider store={store}>
+      <Head>
+        <link rel="icon" href="/logo.svg" />
+      </Head>
       <Init />
       <Component {...pageProps} />
     </Provider>

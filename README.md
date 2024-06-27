@@ -1,40 +1,197 @@
-This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
+<br />
+<div align="center">
+  <a href="https://github.com/dimassagngsptr/food-recipe.git">
+    <img src="/docs/screenshot/logo.png" alt="Logo" width="80">
+  </a>
+
+  <h1 align="center">Mama Recipe</h1>
+
+  <p align="center">
+    Food Recipe Implementation
+    <br />
+    <br />
+    <a href="https://food-recipe-dimas.vercel.app/" target="_blank">View Demo</a>
+    ·
+    <a href="https://github.com/dimassagngsptr/pijar-mama-recipe.git" target="_blank">View Back-End Repo</a>
+  </p>
+</div>
+
+## Table of Contents
+
+- [Table of Contents](#table-of-contents)
+- [About The Project](#about-the-project)
+  - [Built With](#built-with)
+- [Getting Started](#getting-started)
+  - [Installation](#installation)
+  - [Screenshots](#screenshots)
+- [Contributing](#contributing)
+- [License](#license)
+- [Contact](#contact)
+- [Documentation](#documentation)
+- [Related Project](#related-project)
+
+## About The Project
+
+**Food Recipe** is a food recipe search application that can be accessed by anyone, this application is built using Next.Js with and Tailwind CSS framework as a page design support. In addition, this application emphasizes reusable components to minimize repetitive code. Applying SSR and CSR concepts to build a website with good performance.
+
+### Built With
+
+These are the language, framework and packages to building the web
+
+- [Javascript](https://nodejs.org/en)
+- [Next.Js](https://nextjs.org/)
+- [Next.Js Pages Router](https://nextjs.org/)
+- [Tailwind CSS](https://tailwindcss.com/)
+- [Redux Toolkit](https://redux-toolkit.js.org/)
+- [Formik and Yup](https://formik.org/)
+- [Axios](https://axios-http.com/)
+- [Firebase](https://firebase.google.com/)
+- [React Youtube](https://github.com/tjallingt/react-youtube)
 
 ## Getting Started
 
-First, run the development server:
+### Installation
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
+1. Clone this repository
+
+```sh
+git clone https://github.com/dimassagngsptr/food-recipe.git
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+2. Go to folder Food Recipe
 
-You can start editing the page by modifying `pages/index.js`. The page auto-updates as you edit the file.
+Run this command to open the folder
 
-[API routes](https://nextjs.org/docs/api-routes/introduction) can be accessed on [http://localhost:3000/api/hello](http://localhost:3000/api/hello). This endpoint can be edited in `pages/api/hello.js`.
+```sh
+cd food-recipe
+```
 
-The `pages/api` directory is mapped to `/api/*`. Files in this directory are treated as [API routes](https://nextjs.org/docs/api-routes/introduction) instead of React pages.
+Run this command to open your Visual Studio Code
 
-This project uses [`next/font`](https://nextjs.org/docs/basic-features/font-optimization) to automatically optimize and load Inter, a custom Google Font.
+```sh
+code .
+```
 
-## Learn More
+3. Install all of the required modules
 
-To learn more about Next.js, take a look at the following resources:
+using NPM
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+```sh
+npm install
+```
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js/) - your feedback and contributions are welcome!
+using Yarn
 
-## Deploy on Vercel
+```sh
+yarn add
+```
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+4.Create file enviroment variable `sh .env ` or `sh .env.local`
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/deployment) for more details.
+```sh
+NEXT_PUBLIC_BASE_URL=https://api-food-recipe.com/v1/
+
+BASE_URL=https://api-food-recipe.com/v1/
+
+NEXT_PUBLIC_FIREBASE_API_KEY=your-api-key
+```
+
+5. Run this command to run the project
+
+using NPM
+
+```sh
+npm run dev
+```
+
+using Yarn
+
+```sh
+yarn dev
+```
+
+## Screenshots
+
+<table>
+  <tr>
+    <td>Login Page</td>
+    <td>Register Page</td>
+  </tr>
+  <tr>
+    <td><img src="/docs/screenshot/login-page.png"/></td>
+    <td><img src="/docs/screenshot/register-page.png"/></td>
+  </tr>
+  <tr>
+    <td>Register with Google</td>
+    <td>Landing Page</td>
+  </tr>
+  <tr>
+    <td><img src="/docs/screenshot/register-with-google.png"
+ /></td>
+    <td><img src="/docs/screenshot/landing-page-after-login.png"/></td>
+  </tr>
+  <tr>
+    <td>New Recipes</td>
+    <td>Popular Recipe</td>
+  </tr>
+  <tr>
+    <td><img src="/docs/screenshot/new-recipe.png" /></td>
+    <td><img src="/docs/screenshot/popular-recipe.png" /></td>
+  </tr>
+  <tr>
+    <td>Search Recipe</td>
+    <td>Sort Recipe</td>
+  </tr>
+  <tr>
+    <td><img src="/docs/screenshot/search-page.png" /></td>
+    <td><img src="/docs/screenshot/sort-page.png" /></td>
+  </tr>
+  <tr>
+    <td>Detail Recipe</td>
+    <td>Youtube Page</td>
+  </tr>
+  <tr>
+    <td><img src="./docs/screenshot/detail-recipe-page.png" /></td>
+    <td><img src="/docs/screenshot/youtube-page.png" /></td>
+  </tr>
+  <tr>
+    <td>My Recipe</td>
+    <td>Saved Recipe</td>
+  </tr>
+  <tr>
+    <td><img src="/docs/screenshot/profile-page.png" /></td>
+    <td><img src="/docs/screenshot/profile-page-2.png" /></td>
+  </tr>
+  <tr>
+    <td>Like Recipe</td>
+  </tr>
+  <tr>
+    <td><img src="/docs/screenshot/profile-page-3.png" /></td>
+  </tr> 
+</table>
+
+### Contributing
+
+Contributions are what make the open source community such an amazing place to learn, inspire, and create. Any contributions you make are **greatly appreciated**.
+
+1. Fork the Project
+2. Create your Feature Branch (`git checkout -b feature/AmazingFeature`)
+3. Commit your Changes (`git commit -m 'feat : Add some AmazingFeature'`)
+4. Push to the Branch (`git push origin feature/AmazingFeature`)
+5. Open a Pull Request
+
+### License
+
+Distributed under the MIT License. See [`LICENSE`](https://github.com/dimassagngsptr/Peworld/edit/development/LICENSE) for more information.
+
+### Contact
+
+If you have any questions or inquiries regarding this project, feel free to contact me at dimasageng58@gmail.com
+
+### Documentation
+
+The server for this project was created by [muhammad risano](https://github.com/muhammadrisano) using [Express.Js](https://expressjs.com/). If you want to see more about this back-end project, please visit [back-end food-recipe](https://github.com/dimassagngsptr/pijar-mama-recipe.git)
+
+### Related Project
+
+:rocket: [`Food Recipe`](https://github.com/dimassagngsptr/food-recipe.git)
