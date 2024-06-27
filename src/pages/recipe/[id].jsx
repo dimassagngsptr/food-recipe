@@ -22,7 +22,6 @@ export default function Page() {
   const [like, setLike] = useState(false);
   const [save, setSave] = useState(false);
   const { likeRecepi, saveRecepi } = useSelector((state) => state.user);
-  console.log(likeRecepi, saveRecepi);
   const { query } = useRouter();
   const { token } = getCookie();
   const { data } = useSelector((state) => state.user);
@@ -76,7 +75,6 @@ export default function Page() {
   };
 
   const handleLike = async (route) => {
-    console.log(route);
     let id = null;
     if (route === "recipes/save") {
       id = saveRecepi?.data?.find((item) => item?.recipe_id === query?.id);
@@ -95,24 +93,21 @@ export default function Page() {
             headers: { Authorization: `Bearer ${token}` },
           }
         );
-        console.log(query?.id);
-
         alert(response?.data?.message);
-        console.log(recipe?.id);
         if (route === "recipes/save") {
           setSave(true);
-          await axios.post(`${process.env.NEXT_PUBLIC_API}/api/save`, {
-            id: response?.data?.data?.id,
-            recipe_id: recipe?.id,
-            user_id: data?.data?.id,
-          });
+          // await axios.post(`${process.env.NEXT_PUBLIC_API}/api/save`, {
+          //   id: response?.data?.data?.id,
+          //   recipe_id: recipe?.id,
+          //   user_id: data?.data?.id,
+          // });
         } else {
           setLike(true);
-          await axios.post(`${process.env.NEXT_PUBLIC_API}/api/like`, {
-            id: response?.data?.data?.id,
-            recipe_id: recipe?.id,
-            user_id: data?.data?.id,
-          });
+          // await axios.post(`${process.env.NEXT_PUBLIC_API}/api/like`, {
+          //   id: response?.data?.data?.id,
+          //   recipe_id: recipe?.id,
+          //   user_id: data?.data?.id,
+          // });
         }
         return;
       }
@@ -166,6 +161,18 @@ export default function Page() {
     dispatch(getDetailUser());
     dispatch(getMyLikeRecepi());
     dispatch(getMySaveRecepi());
+    const likeId = likeRecepi?.data?.find(
+      (item) => item?.recipe_id === query?.id
+    );
+    const saveId = saveRecepi?.data?.find(
+      (item) => item?.recipe_id === query?.id
+    );
+    if (likeId) {
+      setLike(true);
+    }
+    if (saveId) {
+      setSave(true);
+    }
   }, [query?.id]);
   return (
     <main>
