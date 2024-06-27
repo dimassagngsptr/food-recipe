@@ -72,6 +72,7 @@ export default function Page() {
           width={150}
           height={150}
           className="mx-auto"
+          alt="image"
         />
         <h1 className="text-2xl font-semibold my-5">
           {user?.data?.data?.name}
@@ -103,7 +104,7 @@ export default function Page() {
           {data && data?.length <= 0 ? (
             <div className="flex flex-col lg:justify-center items-center lg:w-full lg:h-full">
               <h1 className="lg:text-xl">Opss you dont have item now</h1>
-              <Image src={"/profile/empty.jpg"} width={400} height={400} />
+              <Image src={"/profile/empty.jpg"} width={400} height={400} alt="image"/>
             </div>
           ) : (
             data?.map((items) => (

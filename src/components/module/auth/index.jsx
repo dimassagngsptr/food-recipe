@@ -25,11 +25,13 @@ export const AuthPage = () => {
         <span className="inline-block text-[#000] text-lg">Home</span>
       </Link>
       <Image
+      alt="image"
         src={"/auth/image 15.png"}
         fill={true}
         className="h-full w-full opacity-30 lg:opacity-30 object-cover bg-no-repeat"
       />
       <Image
+      alt="image"
         src={"/auth/Group 697.svg"}
         width={100}
         height={100}

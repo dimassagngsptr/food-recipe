@@ -26,6 +26,7 @@ export const HeaderDetail = ({
     <div className="relative">
       <Link href={`/recipe/update/${router?.query?.id}`}>
         <Image
+        alt="image"
           src={"/profile/edit-3.svg"}
           width={30}
           height={30}
@@ -43,6 +44,7 @@ export const HeaderDetail = ({
           </div>
         )}
         <Image
+        alt="image"
           src={image}
           fill
           quality={100}

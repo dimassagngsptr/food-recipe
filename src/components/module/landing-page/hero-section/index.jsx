@@ -9,12 +9,14 @@ export const HeroSection = () => {
         <div className="hidden lg:absolute lg:block -top-[120px] -right-40">
           <Image
             objectFit="cover"
+            alt="image"
             src="/landingpage/vector.png"
             width={350}
             height={400}
           />
           <Image
             objectFit="cover"
+            alt="image"
             src="/landingpage/vector.png"
             width={350}
             height={400}
@@ -22,6 +24,7 @@ export const HeroSection = () => {
         </div>
         <Image
           objectFit="cover"
+          alt="image"
           src="/landingpage/salad.png"
           width={400}
           height={400}
@@ -29,6 +32,7 @@ export const HeroSection = () => {
         />
         <Image
           objectFit="cover"
+          alt="image"
           src="/landingpage/main.png"
           width={600}
           height={600}

@@ -146,7 +146,7 @@ export const FormRegister = () => {
             : "hidden"
         }`}
       >
-        <Image src={"/auth/google.png"} width={20} height={20} />
+        <Image src={"/auth/google.png"} width={20} height={20}  alt="image"/>
         <p className="text-[#000] lg:text-[#8692A6]">Sign in with Google</p>
       </div>
       {socialRegister?.name != "" && socialRegister?.email != "" ? (

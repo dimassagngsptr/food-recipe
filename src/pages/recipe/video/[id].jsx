@@ -54,6 +54,7 @@ export default function Page() {
                     fill
                     className="object-cover rounded-lg"
                     quality={100}
+                    alt="image"
                   />
                   <svg
                     xmlns="http://www.w3.org/2000/svg"

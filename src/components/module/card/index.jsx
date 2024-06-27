@@ -9,6 +9,7 @@ export const Card = ({ title, image, href, style }) => {
         className="relative rounded-md cursor-pointer lg:hover:-translate-y-2 transition duration-300"
       >
         <Image
+        alt="image"
           src={
             image === "" || image === null || image?.length < 5
               ? "/landingpage/Rectangle 314.png"

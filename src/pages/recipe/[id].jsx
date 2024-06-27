@@ -29,13 +29,16 @@ export default function Page() {
   const getLikeLocal = async () => {
     const id = likeRecepi?.data?.find((item) => item?.recipe_id === query?.id);
     try {
-      const like = await axios.get("/api/getLike", {
-        params: {
-          id: id?.id,
-          user_id: data?.data?.id,
-          recipe_id: query?.id,
-        },
-      });
+      const like = await axios.get(
+        `${process.env.NEXT_PUBLIC_API}/api/getLike`,
+        {
+          params: {
+            id: id?.id,
+            user_id: data?.data?.id,
+            recipe_id: query?.id,
+          },
+        }
+      );
       if (like?.data?.length > 0) {
         setLike(true);
       }
@@ -46,15 +49,16 @@ export default function Page() {
   const getSaveLokal = async () => {
     const id = saveRecepi?.data?.find((item) => item?.recipe_id === query?.id);
     try {
-      const save = await axios.get("/api/getSave", {
-        params: {
-          id: id?.id,
-          user_id: data?.data?.id,
-          recipe_id: query?.id,
-        },
-      });
-      console.log(save);
-      console.log(save?.data?.length > 0);
+      const save = await axios.get(
+        `${process.env.NEXT_PUBLIC_API}/api/getSave`,
+        {
+          params: {
+            id: id?.id,
+            user_id: data?.data?.id,
+            recipe_id: query?.id,
+          },
+        }
+      );
       if (save?.data?.length > 0) {
         setSave(true);
       }
@@ -97,14 +101,14 @@ export default function Page() {
         console.log(recipe?.id);
         if (route === "recipes/save") {
           setSave(true);
-          await axios.post("/api/save", {
+          await axios.post(`${process.env.NEXT_PUBLIC_API}/api/save`, {
             id: response?.data?.data?.id,
             recipe_id: recipe?.id,
             user_id: data?.data?.id,
           });
         } else {
           setLike(true);
-          await axios.post("/api/like", {
+          await axios.post(`${process.env.NEXT_PUBLIC_API}/api/like`, {
             id: response?.data?.data?.id,
             recipe_id: recipe?.id,
             user_id: data?.data?.id,
@@ -202,6 +206,7 @@ export default function Page() {
                 fill
                 className="object-cover rounded-lg"
                 quality={100}
+                alt="image"
               />
               <svg
                 xmlns="http://www.w3.org/2000/svg"

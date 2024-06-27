@@ -14,12 +14,14 @@ export const NewRecipe = ({ recipes }) => {
         <div className="bg-main-yellow w-[100px] h-[350px] lg:w-[514px] lg:h-[600px] rounded"></div>
         <Image
           src={recipes && recipes[0]?.image}
+          alt="image"
           width={600}
           height={600}
           className="hidden lg:block lg:absolute top-16 left-24 h-[700px] lg:h-[600px] lg:w-[600px] lg:rounded-md object-cover"
         />
         <Image
           src={recipes && recipes[0]?.image}
+          alt="image"
           width={300}
           height={300}
           className="absolute lg:hidden top-10 left-10 h-[300px] object-cover rounded-md w-[300px]"
