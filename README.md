@@ -110,6 +110,12 @@ using Yarn
 yarn dev
 ```
 
+6. For testing
+   ```sh
+   email : dimas@gmail.com
+   pass : @Dimas123
+   ```
+
 ## Screenshots
 
 <table>
@@ -182,7 +188,7 @@ Contributions are what make the open source community such an amazing place to l
 
 ### License
 
-Distributed under the MIT License. See [`LICENSE`](https://github.com/dimassagngsptr/Peworld/edit/development/LICENSE) for more information.
+Distributed under the MIT License. See [`LICENSE`](https://github.com/dimassagngsptr/food-recipe/blob/master/LICENSE) for more information.
 
 ### Contact
 
