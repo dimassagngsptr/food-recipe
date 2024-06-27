@@ -110,6 +110,12 @@ using Yarn
 yarn dev
 ```
 
+6. For testing
+   ```sh
+   email : dimas@gmail.com
+   pass : @Dimas123
+   ```
+
 ## Screenshots
 
 <table>
