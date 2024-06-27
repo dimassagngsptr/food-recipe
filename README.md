@@ -184,7 +184,12 @@ Distributed under the MIT License. See [`LICENSE`](https://github.com/dimassagng
 
 ### Contact
 
-If you have any questions or inquiries regarding this project, feel free to contact me at dimasageng58@gmail.com
+If you have any questions or inquiries regarding this project, feel free to contact me at 
+
+email : dimasageng58@gmail.com
+
+linkedin : https://www.linkedin.com/in/dimasagengsaputro/
+
 
 ### Documentation
 
