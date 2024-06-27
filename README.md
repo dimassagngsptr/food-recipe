@@ -137,14 +137,6 @@ yarn dev
     <td><img src="/docs/screenshot/landing-page-after-login.png"/></td>
   </tr>
   <tr>
-    <td>New Recipes</td>
-    <td>Popular Recipe</td>
-  </tr>
-  <tr>
-    <td><img src="/docs/screenshot/new-recipe.png" /></td>
-    <td><img src="/docs/screenshot/popular-recipe.png" /></td>
-  </tr>
-  <tr>
     <td>Search Recipe</td>
     <td>Sort Recipe</td>
   </tr>
@@ -154,7 +146,7 @@ yarn dev
   </tr>
   <tr>
     <td>Detail Recipe</td>
-    <td>Youtube Page</td>
+    <td>Video Recipe Page</td>
   </tr>
   <tr>
     <td><img src="./docs/screenshot/detail-recipe-page.png" /></td>
