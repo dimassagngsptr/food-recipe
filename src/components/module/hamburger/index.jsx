@@ -42,7 +42,7 @@ export const HamburgerMenu = () => {
       <div
         className={`${
           open
-            ? "h-screen w-2/3 z-10 bg-main-white absolute top-0 right-0 px-5 flex flex-col gap-5"
+            ? "h-screen w-2/3 z-20 bg-main-white absolute top-0 right-0 px-5 flex flex-col gap-5"
             : " w-0 h-screen absolute top-0 right-0 overflow-hidden bg-main-white"
         } transition-all duration-200`}
       >

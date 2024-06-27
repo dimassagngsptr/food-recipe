@@ -9,10 +9,9 @@ import Image from "next/image";
 import Link from "next/link";
 import { useState } from "react";
 import { GoogleRegister } from "./GoogleRegister";
-import axios from "axios";
 import { useRouter } from "next/router";
 import { useDispatch, useSelector } from "react-redux";
-import { authRegister, authRegisterGoogle } from "@/redux/features/authSlice";
+import { authRegister } from "@/redux/features/authSlice";
 
 export const FormRegister = () => {
   const dispatch = useDispatch();
@@ -44,8 +43,12 @@ export const FormRegister = () => {
   };
   const handleRegister = async () => {
     try {
-      const response = await dispatch(authRegisterGoogle(socialRegister));
-      console.log(response);
+      const response = await dispatch(authRegister(socialRegister));
+      if (response?.payload?.statuCode != 201) {
+        return alert(response?.payload);
+      }
+      alert(response?.payload?.message);
+      router.push("/login");
     } catch (error) {
       alert(error?.response?.data?.message);
     }
@@ -116,6 +119,7 @@ export const FormRegister = () => {
       }
       alert(response?.payload?.message);
       resetForm();
+      router.push("/login");
     },
   });
   return (

@@ -1,4 +1,4 @@
-import { api } from "@/pages/api/api";
+import { api } from "@/configs/api";
 import { getCookie } from "@/utils/cookie";
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 
@@ -7,7 +7,7 @@ export const getDetailUser = createAsyncThunk(
   async (_, thunkApi) => {
     const { token } = getCookie();
     try {
-      const response = await api.get("/v1/users/profile", {
+      const response = await api.get("users/profile", {
         headers: { Authorization: `Bearer ${token}` },
       });
       return response?.data;
@@ -21,7 +21,7 @@ export const getMyLikeRecepi = createAsyncThunk(
   async (_, thunkApi) => {
     const { token } = getCookie();
     try {
-      const response = await api.get("/v1/recipes/like", {
+      const response = await api.get("recipes/like", {
         headers: { Authorization: `Bearer ${token}` },
       });
       return response?.data;
@@ -30,13 +30,42 @@ export const getMyLikeRecepi = createAsyncThunk(
     }
   }
 );
-
+export const getMySaveRecepi = createAsyncThunk(
+  "user/save",
+  async (_, thunkApi) => {
+    const { token } = getCookie();
+    try {
+      const response = await api.get("recipes/save", {
+        headers: { Authorization: `Bearer ${token}` },
+      });
+      return response?.data;
+    } catch (error) {
+      return thunkApi.rejectWithValue(error?.response?.data?.message);
+    }
+  }
+);
+export const getMyRecepi = createAsyncThunk(
+  "user/myRecepi",
+  async (_, thunkApi) => {
+    const { token } = getCookie();
+    try {
+      const response = await api.get("recipes/self", {
+        headers: { Authorization: `Bearer ${token}` },
+      });
+      return response?.data;
+    } catch (error) {
+      return thunkApi.rejectWithValue(error?.response?.data?.message);
+    }
+  }
+);
 const userSlice = createSlice({
   name: "user",
   initialState: {
     loading: false,
     data: {},
     likeRecepi: [],
+    saveRecepi: [],
+    myRecepi: [],
     error: "",
   },
   reducers: {},
@@ -62,6 +91,30 @@ const userSlice = createSlice({
         state.likeRecepi = action.payload;
       })
       .addCase(getMyLikeRecepi.rejected, (state, action) => {
+        state.loading = false;
+        state.error = action.payload;
+      });
+    builder
+      .addCase(getMySaveRecepi.pending, (state) => {
+        state.loading = true;
+      })
+      .addCase(getMySaveRecepi.fulfilled, (state, action) => {
+        state.loading = false;
+        state.saveRecepi = action.payload;
+      })
+      .addCase(getMySaveRecepi.rejected, (state, action) => {
+        state.loading = false;
+        state.error = action.payload;
+      });
+    builder
+      .addCase(getMyRecepi.pending, (state) => {
+        state.loading = true;
+      })
+      .addCase(getMyRecepi.fulfilled, (state, action) => {
+        state.loading = false;
+        state.myRecepi = action.payload;
+      })
+      .addCase(getMyRecepi.rejected, (state, action) => {
         state.loading = false;
         state.error = action.payload;
       });

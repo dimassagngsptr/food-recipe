@@ -1,8 +1,7 @@
 import Button from "@/components/base/button";
 import { Input } from "@/components/base/input";
 import { Loader } from "@/components/base/loader";
-// import { useLocalStorage } from "@/hooks/useLocalStorage";
-import { api } from "@/pages/api/api";
+import { api } from "@/configs/api";
 import { getCookie } from "@/utils/cookie";
 import { useFormik } from "formik";
 import { useEffect, useState } from "react";
@@ -32,7 +31,7 @@ export const AddRecipe = () => {
       try {
         let formData = new FormData();
         formData.append("file", file?.file);
-        const response = await api.post("/v1/upload", formData);
+        const response = await api.post("upload", formData);
         if (response?.status == 201) {
           setFile({ ...file, url: response?.data?.data?.file_url });
         }
@@ -59,7 +58,7 @@ export const AddRecipe = () => {
     onSubmit: async (values, action) => {
       setLoading(true);
       try {
-        const response = await api.post("v1/recipes/", values, {
+        const response = await api.post("recipes/", values, {
           headers: { Authorization: `Bearer ${token}` },
         });
         alert(response?.data?.message);
@@ -72,11 +71,11 @@ export const AddRecipe = () => {
   });
   return (
     <form
-      className="flex flex-col w-full gap-8 items-center justify-center pb-36"
+      className="flex flex-col w-full gap-8 lg:items-center justify-center px-5 lg:px-0 pb-36"
       onSubmit={formik.handleSubmit}
     >
       <div
-        className="relative bg-[#F6F5F4] w-1/2 h-[500px] rounded"
+        className="relative bg-[#F6F5F4] w-full  lg:w-1/2 h-[300px] lg:h-[500px] rounded"
         style={{
           backgroundImage: `url(${file?.selectedImage})`,
           backgroundSize: "cover",
@@ -110,7 +109,7 @@ export const AddRecipe = () => {
           </small>
         )}
       </div>
-      <div className="w-1/2 h-[80px]">
+      <div className="lg:w-1/2 h-[80px]">
         <Input
           name="title"
           onChange={formik.handleChange}
@@ -121,7 +120,7 @@ export const AddRecipe = () => {
           className="w-full h-full bg-[#F6F5F4] px-6 rounded placeholder-[#000] outline-none"
         />
       </div>
-      <div className="w-1/2 h-[300px]">
+      <div className="lg:w-1/2 h-[300px]">
         <textarea
           onChange={formik.handleChange}
           onBlur={formik.handleBlur}
@@ -130,13 +129,6 @@ export const AddRecipe = () => {
           className="bg-[#F6F5F4] w-full h-full py-3 px-5 placeholder-[#000] outline-none rounded"
           placeholder="Ingredients"
         ></textarea>
-      </div>
-      <div className="w-1/2 h-[80px]">
-        <Input
-          type="text"
-          placeholder="Video"
-          className="w-full h-full bg-[#F6F5F4] px-6 rounded placeholder-[#000] outline-none"
-        />
       </div>
       <Button
         type="submit"

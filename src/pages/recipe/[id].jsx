@@ -1,19 +1,27 @@
 import { HeaderDetail } from "@/components/module/detail/header";
 import { NAVAUTH, NAVLINK } from "@/components/module/navbar";
 import Image from "next/image";
-import { api } from "../api/api";
+import { api } from "../../configs/api";
 import { Footer } from "@/components/module/footer";
 import Link from "next/link";
 import { getCookie } from "@/utils/cookie";
 import axios from "axios";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { useRouter } from "next/router";
 import { useEffect, useState } from "react";
+import { HamburgerMenu } from "@/components/module/hamburger";
+import {
+  getDetailUser,
+  getMyLikeRecepi,
+  getMySaveRecepi,
+} from "@/redux/features/userSlice";
 
 export default function Page() {
+  const dispatch = useDispatch();
   const [recipe, setRecipe] = useState({});
   const [like, setLike] = useState(false);
-  const { likeRecepi } = useSelector((state) => state.user);
+  const [save, setSave] = useState(false);
+  const { likeRecepi, saveRecepi } = useSelector((state) => state.user);
   const { query } = useRouter();
   const { token } = getCookie();
   const { data } = useSelector((state) => state.user);
@@ -34,44 +42,83 @@ export default function Page() {
       return error;
     }
   };
+  const getSaveLokal = async () => {
+    const id = saveRecepi?.data?.find((item) => item?.recipe_id === query?.id);
+    try {
+      const save = await axios.get("/api/getSave", {
+        params: {
+          id: id?.id,
+          user_id: data?.data?.id,
+          recipe_id: query?.id,
+        },
+      });
+
+      if (save?.data?.length > 0) {
+        setSave(true);
+      }
+    } catch (error) {
+      return error;
+    }
+  };
   const detailRecipes = async () => {
     try {
-      const res = await api.get(`v1/recipes/${query?.id}`);
+      const res = await api.get(`recipes/${query?.id}`);
       setRecipe(res?.data?.data);
     } catch (error) {
       console.log(error);
     }
   };
+
   const handleLike = async (route) => {
+    console.log(route);
+    let id = null;
+    if (route === "recipes/save") {
+      id = saveRecepi?.data?.find((item) => item?.recipe_id === query?.id);
+    } else if (route === "recipes/like") {
+      id = likeRecepi?.data?.find((item) => item?.recipe_id === query?.id);
+    }
     try {
-      if (like == true) {
-        const id = likeRecepi?.data?.find(
-          (item) => item?.recipe_id === query?.id
-        );
-        console.log(id);
-        const response = await api.delete(`v1/${route}/${id?.id}`, {
-          headers: { Authorization: `Bearer ${token}` },
-        });
-        alert(response?.data?.message);
-        setLike(false);
-      } else {
+      if (
+        (route === "recipes/like" && like != true) ||
+        (route === "recipes/save" && save != true)
+      ) {
         const response = await api.post(
-          `v1/${route}`,
-          { recipe_id: recipe?.id },
+          `${route}`,
+          { recipe_id: query?.id },
           {
             headers: { Authorization: `Bearer ${token}` },
           }
         );
+        console.log(query?.id);
         await axios.post("/api/like", {
           id: response?.data?.data?.id,
           recipe_id: recipe?.id,
           user_id: data?.data?.id,
         });
         alert(response?.data?.message);
-        setLike(true);
+        console.log(recipe?.id);
+        if (route === "recipes/save") {
+          setSave(true);
+        } else {
+          setLike(true);
+        }
+        return;
+      }
+      const response = await api.delete(`${route}/${id?.id}`, {
+        headers: { Authorization: `Bearer ${token}` },
+      });
+      alert(response?.data?.message);
+      if (route === "recipes/save") {
+        setSave(false);
+      } else {
+        setLike(false);
       }
     } catch (error) {
       console.log(error);
+    } finally {
+      dispatch(getDetailUser());
+      dispatch(getMyLikeRecepi());
+      dispatch(getMySaveRecepi());
     }
   };
   const video = [
@@ -103,32 +150,42 @@ export default function Page() {
   useEffect(() => {
     detailRecipes();
     getLikeLocal();
+    getSaveLokal();
   }, [query?.id]);
   return (
     <main>
-      <div className="flex justify-between">
-        <NAVLINK />
-        <NAVAUTH py="py-[3%]" />
+      <div className="bg-main-yellow h-16 w-full flex justify-between pl-10 lg:hidden">
+        <Image src={"/auth/Group 697.svg"} width={30} height={30} alt="Logo" />
+        <HamburgerMenu />
+      </div>
+      <div className="flex">
+        <div className="hidden w-full bg-white lg:w-full h-[150px] lg:flex flex-coljustify-between">
+          <NAVLINK />
+        </div>
       </div>
       <HeaderDetail
         image={recipe?.image}
         title={recipe?.title}
         handleLike={handleLike}
+        // handleSave={handleSave}
+        save={save}
         like={like}
       />
-      <div className="flex flex-col mx-auto w-2/3 px-[3%]">
-        <h1 className="font-semibold text-4xl text-[#000] mb-5">Ingredients</h1>
+      <div className="flex flex-col mx-auto md:w-full lg:w-full 2xl:w-2/3 px-5 lg:pl-[15%] 2xl:px-[3%]">
+        <h1 className="font-semibold text-2xl lg:text-4xl text-[#000] mb-5">
+          Ingredients
+        </h1>
         {recipe?.description?.split(/[\n:]/).map((item, i) => (
-          <p key={i} className="text-3xl w-1/2 py-1">
-            - {item}
+          <p key={i} className="lg:text-3xl w-full 2xl:w-1/2 py-1 text-justify">
+            {item}
           </p>
         ))}
       </div>
-      <div className="flex flex-col gap-3 mx-auto w-2/3 px-[3%] mt-20">
+      <div className="flex flex-col gap-3 mx-auto lg:w-2/3 px-[3%] mt-20">
         <h1 className="font-semibold text-4xl mb-5">Video Step</h1>
         {video.map((item, i) => (
-          <div key={i} className="flex gap-5">
-            <div className="bg-main-yellow relative w-[300px] h-[100px] flex justify-center items-center rounded-lg my-2 cursor-pointer">
+          <div key={i} className="flex items-center lg:items-start gap-5">
+            <div className="bg-main-yellow relative w-[200px] h-[100px] lg:w-[300px] lg:h-[100px] flex justify-center items-center rounded-lg my-2 cursor-pointer">
               <Image
                 src={item?.image}
                 fill
@@ -150,7 +207,7 @@ export default function Page() {
             </div>
             <Link
               href={`/recipe/video/${recipe?.id}`}
-              className="font-semibold text-xl w-1/3 py-5 cursor-pointer hover:underline"
+              className="font-semibold lg:text-xl w-1/3 py-5 cursor-pointer hover:underline"
             >
               {item?.title}
             </Link>

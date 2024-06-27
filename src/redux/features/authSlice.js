@@ -1,4 +1,4 @@
-import { api } from "@/pages/api/api";
+import { api } from "@/configs/api";
 import { setCookie } from "@/utils/cookie";
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import axios from "axios";
@@ -7,7 +7,7 @@ export const authRegister = createAsyncThunk(
   "auth/register",
   async (data, thunkApi) => {
     try {
-      const res = await api.post("/v1/auth/register", data);
+      const res = await api.post("auth/register", data);
       return res?.data;
     } catch (error) {
       return thunkApi.rejectWithValue(error?.response?.data?.message);
@@ -36,7 +36,7 @@ export const authLogin = createAsyncThunk(
   "auth/login",
   async (data, thunkApi) => {
     try {
-      const res = await api.post("/v1/auth/login", data);
+      const res = await api.post("auth/login", data);
       return res?.data;
     } catch (error) {
       return thunkApi.rejectWithValue(error?.response?.data?.message);

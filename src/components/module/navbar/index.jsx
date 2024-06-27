@@ -3,13 +3,13 @@ import Button from "@/components/base/button";
 import { deleteCookie, getCookie } from "@/utils/cookie";
 import Image from "next/image";
 import Link from "next/link";
-import { useState } from "react";
+import { Children, useState } from "react";
 
 export const NAVLINK = () => {
   const navLink = [
     { title: "Home", link: "/" },
     { title: "Add Recipe", link: "/recipe/add" },
-    { title: "Profile", link: "/profile" },
+    // { title: "Profile", link: "/profile" },
   ];
   return (
     <main className="flex gap-14 text-main-blue font-semibold px-[10%] py-[4%]">
@@ -22,20 +22,10 @@ export const NAVLINK = () => {
   );
 };
 
-const Menu = ({ handleLogout }) => {
+export const Menu = ({ children }) => {
   return (
     <main className="bg-[#fff] h-24 w-40 rounded border-2 border-[#b8b8b8] shadow-xl">
-      <div className="relative flex flex-col gap-2">
-        <button className="text-main-blue font-bold border-b border-[#9c9b9b] px-5 text-start py-3">
-          Profile
-        </button>
-        <button
-          onClick={handleLogout}
-          className="text-main-blue font-bold px-5 text-start"
-        >
-          Logout
-        </button>
-      </div>
+      <div className="relative flex flex-col gap-2">{children}</div>
     </main>
   );
 };
@@ -62,7 +52,20 @@ export const NAVAUTH = ({ py }) => {
               className="cursor-pointer"
             />
             <div className={`${open ? "absolute left-2" : "hidden"}`}>
-              <Menu handleLogout={handleLogout} />
+              <Menu>
+                <Link
+                  href={"/profile"}
+                  className="text-main-blue font-bold border-b border-[#9c9b9b] px-5 text-start py-3"
+                >
+                  Profile
+                </Link>
+                <button
+                  onClick={handleLogout}
+                  className="text-main-blue font-bold px-5 text-start"
+                >
+                  Logout
+                </button>
+              </Menu>
             </div>
           </div>
         ) : (

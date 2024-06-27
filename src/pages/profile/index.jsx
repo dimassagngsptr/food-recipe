@@ -1,12 +1,13 @@
 import { Card } from "@/components/module/card";
-import { NAVLINK } from "@/components/module/navbar";
+import { NAVAUTH, NAVLINK } from "@/components/module/navbar";
 import Image from "next/image";
-import { useState } from "react";
-import { api } from "../api/api";
+import { useEffect, useState } from "react";
+import { api } from "../../configs/api";
 import { Skeleton } from "@/components/module/skeleton";
 import { getCookie } from "@/utils/cookie";
 import { useSelector } from "react-redux";
 import { Footer } from "@/components/module/footer";
+import { HamburgerMenu } from "@/components/module/hamburger";
 
 export default function Page() {
   const user = useSelector((state) => state.user);
@@ -15,7 +16,6 @@ export default function Page() {
     selected: "My Recipe",
     route: "",
   });
-
   const [data, setData] = useState([]);
   const { token } = getCookie();
   const handleClik = async (route, selected) => {
@@ -36,37 +36,42 @@ export default function Page() {
     setLoading(false);
   };
   const handleDelete = async (id) => {
+    console.log(id);
     try {
-      const response = await api.delete(`${currentRoute?.route}/${id}`, {
+      const response = await api.delete(`recipes/${id}`, {
         headers: { Authorization: `Bearer ${token}` },
       });
       handleClik(currentRoute?.route, currentRoute?.selected);
       alert(response?.data?.message);
     } catch (error) {
-      console.log(error);
+      alert("Your recipe has been liked or saved by someone");
     }
   };
 
   const table = [
-    { title: "My Recipe", route: "/v1/recipes/self" },
-    { title: "Saved Recipe", route: "/v1/recipes/save" },
-    { title: "Like Recipe", route: "/v1/recipes/like" },
+    { title: "My Recipe", route: "recipes/self" },
+    { title: "Saved Recipe", route: "recipes/save" },
+    { title: "Like Recipe", route: "recipes/like" },
   ];
+  useEffect(() => {
+    setData(user?.myRecepi?.data);
+  }, []);
   return (
     <main>
-      <NAVLINK />
+      <div className="hidden lg:flex lg:justify-between lg:items-center">
+        <NAVLINK />
+        <NAVAUTH />
+      </div>
+      <div className="bg-main-yellow mb-4 h-16 w-full flex justify-between pl-10 lg:hidden">
+        <Image src={"/auth/Group 697.svg"} width={30} height={30} alt="Logo" />
+        <HamburgerMenu />
+      </div>
       <div className="relative flex flex-col items-center justify-center w-full h-[300px] lg:h-[300px]">
         <Image
-          src={"/profile/Ellipse 127.png"}
-          width={172}
-          height={172}
+          src={"/profile/user.png"}
+          width={150}
+          height={150}
           className="mx-auto"
-        />
-        <Image
-          src={"/profile/edit-3.svg"}
-          width={30}
-          height={30}
-          className="absolute right-[25%] bottom-[20%] lg:top-[60%] lg:right-[43%] transform -translate-x-1/2 -translate-y-1/2 "
         />
         <h1 className="text-2xl font-semibold my-5">
           {user?.data?.data?.name}
@@ -88,13 +93,13 @@ export default function Page() {
         ))}
       </div>
       {loading ? (
-        <div className="border-t border-[#0007] flex flex-wrap gap-x-10 px-[10%] py-[3%] mt-8">
+        <div className="border-t border-[#0007] flex flex-wrap gap-x-10 px-[10%] py-[3%] mt-8 lg:gap-5 lg:min-h-[800px]">
           {Array.from(new Array(5)).map((item) => (
             <Skeleton key={item} />
           ))}
         </div>
       ) : (
-        <div className="border-t border-[#0007] flex flex-wrap gap-5 px-3 lg:gap-10 lg:px-[10%] py-[3%] my-8 min-h-[500px]">
+        <div className="border-t border-[#0007] flex flex-wrap gap-5 px-3 lg:gap-10 lg:px-[10%] py-[3%] my-8 lg:min-h-[800px]">
           {data && data?.length <= 0 ? (
             <div className="flex flex-col lg:justify-center items-center lg:w-full lg:h-full">
               <h1 className="lg:text-xl">Opss you dont have item now</h1>
@@ -105,7 +110,11 @@ export default function Page() {
               <div className="relative" key={items?.id}>
                 <button
                   onClick={() => handleDelete(items?.id)}
-                  className="bg-[#7C0A02] w-[30px] h-[30px] rounded-full flex items-center justify-center z-10 absolute top-5 right-3 hover:-translate-y-1 transition duration-300"
+                  className={`${
+                    currentRoute?.selected === "My Recipe"
+                      ? "bg-[#7C0A02] w-[30px] h-[30px] rounded-full flex items-center justify-center z-10 absolute top-5 right-3 hover:-translate-y-1 transition duration-300"
+                      : "hidden"
+                  }`}
                 >
                   <svg
                     xmlns="http://www.w3.org/2000/svg"
@@ -126,19 +135,45 @@ export default function Page() {
                   <Card
                     image={"/landingpage/burger.png"}
                     title={items?.title}
-                    href={`/recipe/${items?.id}`}
+                    href={`/recipe/${items?.recipe?.id}`}
                   />
                 ) : items?.recipe?.image ? (
+                  currentRoute?.selected === "My Recipe" ? (
+                    <Card
+                      image={items?.recipe?.image}
+                      title={items?.recipe?.title}
+                      style={
+                        "absolute bottom-5 text-2xl left-5 font-semibold w-[150px] text-[#fff] lg:bottom-10 lg:text-xl 2xl:bottom-5 2xl:left-3 lg:left-10"
+                      }
+                      href={`/recipe/update/${items?.id}`}
+                    />
+                  ) : (
+                    <Card
+                      image={items?.recipe?.image}
+                      title={items?.recipe?.title}
+                      style={
+                        "absolute bottom-5 text-2xl left-5 font-semibold w-[150px] text-[#fff] lg:bottom-10 lg:text-xl 2xl:bottom-5 2xl:left-3 lg:left-10"
+                      }
+                      href={`/recipe/${items?.id}`}
+                    />
+                  )
+                ) : currentRoute?.selected === "My Recipe" ? (
                   <Card
-                    image={items?.recipe?.image}
-                    title={items?.recipe?.title}
-                    href={`/recipe/${items?.id}`}
+                    image={items?.image}
+                    title={items?.title}
+                    style={
+                      "absolute bottom-5 text-2xl left-5 font-semibold w-[150px] text-[#fff] lg:bottom-10 lg:text-xl 2xl:bottom-5 2xl:left-3 lg:left-10"
+                    }
+                    href={`/recipe/update/${items?.id}`}
                   />
                 ) : (
                   <Card
                     image={items?.image}
                     title={items?.title}
-                    href={`/recipe/${items?.id}`}
+                    style={
+                      "absolute bottom-5 text-2xl left-5 font-semibold w-[150px] text-[#fff] lg:bottom-10 lg:text-xl 2xl:bottom-5 2xl:left-3 lg:left-10"
+                    }
+                    href={`/recipe/${items?.recipe?.id}`}
                   />
                 )}
               </div>

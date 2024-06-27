@@ -1,7 +1,7 @@
 import Image from "next/image";
 import Link from "next/link";
 
-export const Card = ({ title, image, href }) => {
+export const Card = ({ title, image, href, style }) => {
   return (
     <>
       <Link
@@ -19,7 +19,7 @@ export const Card = ({ title, image, href }) => {
           height={400}
           className="w-[400px] h-[400px] rounded-md object-cover opacity-90"
         />
-        <h1 className="absolute bottom-5 text-2xl left-5 font-semibold w-[150px] text-[#fff]">
+        <h1 className={style}>
           {title}
         </h1>
       </Link>

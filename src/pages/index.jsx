@@ -3,22 +3,25 @@ import { Footer } from "@/components/module/footer";
 import { HeroSection } from "@/components/module/landing-page/hero-section";
 import { NewRecipe } from "@/components/module/landing-page/newRecipe-section";
 import { NAVAUTH, NAVLINK } from "@/components/module/navbar";
-import { api } from "./api/api";
+import { api } from "../configs/api";
 import { HamburgerMenu } from "@/components/module/hamburger";
 import Image from "next/image";
 import Link from "next/link";
+import { useEffect, useState } from "react";
 
-export async function getServerSideProps() {
-  try {
-    const recipes = await api.get("v1/recipes");
-    return { props: { recipes: recipes?.data?.data } };
-  } catch (error) {
-    console.error("Failed to fetch recipes:", error);
-    return { props: { recipes: [] } };
+export default function Page() {
+  const [recipes, setRecipes] = useState();
+  async function getRecipe() {
+    try {
+      const recipes = await api.get("recipes");
+      setRecipes(recipes?.data?.data);
+    } catch (error) {
+      console.error("Failed to fetch recipes:", error);
+    }
   }
-}
-
-export default function Page({ recipes }) {
+  useEffect(() => {
+    getRecipe();
+  }, []);
   return (
     <main className="pb-10">
       <div className="bg-main-yellow h-16 w-full flex justify-between pl-10 lg:hidden">

@@ -7,9 +7,6 @@
 .yarn/install-state.gz
 # **.json
 
-/likes.json
-/user.json
-
 # testing
 /coverage
 

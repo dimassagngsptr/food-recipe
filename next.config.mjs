@@ -14,6 +14,7 @@ const nextConfig = {
       "asset.kompas.com",
       "thumb.viva.id",
       "i.ytimg.com",
+      "www.unileverfoodsolutions.co.id",
     ],
   },
 };

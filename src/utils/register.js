@@ -1,9 +1,9 @@
-import { api } from "../pages/api/api";
+import { api } from "../configs/api";
 import * as Yup from "yup";
 
 export async function register(data) {
   try {
-    const response = await api.post("/v1/auth/register", data);
+    const response = await api.post("auth/register", data);
     return response;
   } catch (error) {
     return error;

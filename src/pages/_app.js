@@ -1,4 +1,9 @@
-import { getDetailUser, getMyLikeRecepi } from "@/redux/features/userSlice";
+import {
+  getDetailUser,
+  getMyLikeRecepi,
+  getMyRecepi,
+  getMySaveRecepi,
+} from "@/redux/features/userSlice";
 import { useStore } from "@/redux/store";
 import "@/styles/globals.css";
 import { getCookie } from "@/utils/cookie";
@@ -23,6 +28,8 @@ function Init() {
     if (token) {
       dispatch(getDetailUser());
       dispatch(getMyLikeRecepi());
+      dispatch(getMySaveRecepi());
+      dispatch(getMyRecepi());
     }
   }, [dispatch]);
 
