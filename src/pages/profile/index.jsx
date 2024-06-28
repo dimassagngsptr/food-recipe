@@ -14,7 +14,7 @@ export default function Page() {
   const [loading, setLoading] = useState(false);
   const [currentRoute, setCurrentRoute] = useState({
     selected: "My Recipe",
-    route: "",
+    route: "recipes/self",
   });
   const [data, setData] = useState([]);
   const { token } = getCookie();
@@ -54,7 +54,8 @@ export default function Page() {
     { title: "Like Recipe", route: "recipes/like" },
   ];
   useEffect(() => {
-    setData(user?.myRecepi?.data);
+    // setData(user?.myRecepi?.data);
+    handleClik("recipes/self", "My Recipe");
   }, []);
   return (
     <main>
@@ -102,9 +103,14 @@ export default function Page() {
       ) : (
         <div className="border-t border-[#0007] flex flex-wrap gap-5 px-3 lg:gap-10 lg:px-[10%] py-[3%] my-8 lg:min-h-[800px]">
           {data && data?.length <= 0 ? (
-            <div className="flex flex-col lg:justify-center items-center lg:w-full lg:h-full">
+            <div className="flex flex-col md:justify-center md:w-full lg:justify-center items-center lg:w-full lg:h-full">
               <h1 className="lg:text-xl">Opss you dont have item now</h1>
-              <Image src={"/profile/empty.jpg"} width={400} height={400} alt="image"/>
+              <Image
+                src={"/profile/empty.jpg"}
+                width={400}
+                height={400}
+                alt="image"
+              />
             </div>
           ) : (
             data?.map((items) => (

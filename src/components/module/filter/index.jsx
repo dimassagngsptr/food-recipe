@@ -2,7 +2,7 @@ import { Menu } from "../navbar";
 
 export const Filter = ({ open, handleOpen, handleSort }) => {
   return (
-    <div className="absolute top-[90px] lg:top-0 right-5 lg:relative lg:right-0">
+    <div className="absolute top-[90px] md:right-10 lg:top-0 right-5 lg:relative lg:right-0">
       <svg
         xmlns="http://www.w3.org/2000/svg"
         viewBox="0 0 24 24"

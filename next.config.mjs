@@ -15,6 +15,7 @@ const nextConfig = {
       "thumb.viva.id",
       "i.ytimg.com",
       "www.unileverfoodsolutions.co.id",
+      "indonesiakaya.com",
     ],
   },
 };

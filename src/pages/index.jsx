@@ -24,7 +24,7 @@ export default function Page() {
   }, []);
   return (
     <main className="pb-10">
-      <div className="bg-main-yellow h-16 w-full flex justify-between pl-10 lg:hidden">
+      <div className="bg-main-yellow h-16 w-full flex justify-between  pl-10 lg:hidden">
         <Image src={"/auth/Group 697.svg"} width={30} height={30} alt="Logo" />
         <HamburgerMenu />
       </div>
@@ -33,7 +33,7 @@ export default function Page() {
           <NAVLINK />
           <HeroSection />
         </div>
-        <div className="py-8 bg-main-white block w-full container lg:hidden">
+        <div className="py-8 bg-main-white block w-full lg:hidden">
           <HeroSection />
         </div>
         <div className="hidden lg:block bg-main-yellow lg:w-[30%] h-[800px]">
@@ -48,7 +48,7 @@ export default function Page() {
             Popular Recipe
           </h1>
         </div>
-        <div className="grid grid-cols-1 lg:grid-cols-3 gap-x-3 gap-y-8 px-5 lg:pl-[10%] w-full mx-auto bg-main-white pb-28">
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-x-3 gap-y-8 px-5 lg:pl-[10%] w-full mx-auto bg-main-white pb-28">
           {recipes?.map((item) => (
             <Card
               image={item?.image}

@@ -91,7 +91,7 @@ export default function Page({ initialData, searchTerm }) {
         <div className="w-full lg:w-[400px]">
           <NAVLINK />
         </div>
-        <div className="relative w-[330px] px-5 lg:px-0 lg:w-1/2">
+        <div className="relative w-[330px] px-5 lg:px-0 md:w-[700px] lg:w-1/2">
           <Input
             className="bg-[#fff] px-16 py-5 outline-none rounded-md w-full border border-[#6666]"
             placeholder="Search Recipe"
@@ -117,7 +117,7 @@ export default function Page({ initialData, searchTerm }) {
         </div>
         <Filter handleOpen={handleOpen} handleSort={handleSort} open={open} />
       </div>
-      <div className="grid grid-cols-1 gap-y-4 px-5 lg:grid-cols-3 2xl:grid-cols-4 lg:gap-y-1 lg:gap-x-3 2xl:gap-4 lg:px-[3%] bg-main-white py-5 lg:min-h-screen">
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-y-4 px-5 lg:grid-cols-3 2xl:grid-cols-4 lg:gap-y-1 lg:gap-x-3 2xl:gap-4 lg:px-[3%] bg-main-white md:min-h-screen py-5 lg:min-h-screen">
         {data?.length >= 1 ? (
           !loading ? (
             data?.map((item) => (

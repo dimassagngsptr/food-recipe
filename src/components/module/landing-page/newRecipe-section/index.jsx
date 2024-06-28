@@ -10,7 +10,7 @@ export const NewRecipe = ({ recipes }) => {
           New Recipe
         </h1>
       </div>
-      <div className="relative flex flex-col lg:flex-row justify-between pr-10">
+      <div className="relative flex flex-col w-full md:flex-row lg:flex-row justify-between pr-10">
         <div className="bg-main-yellow w-[100px] h-[350px] lg:w-[514px] lg:h-[600px] rounded"></div>
         <Image
           src={recipes && recipes[0]?.image}
@@ -26,7 +26,7 @@ export const NewRecipe = ({ recipes }) => {
           height={300}
           className="absolute lg:hidden top-10 left-10 h-[300px] object-cover rounded-md w-[300px]"
         />
-        <div className="flex flex-col w-full pl-8 lg:pl-0 py-5 lg:py-0 lg:w-[40%] justify-center">
+        <div className="flex flex-col w-full pl-8 md:pl-80 lg:pl-0 py-5 lg:py-0 lg:w-[40%] justify-center">
           <h1 className="text-2xl lg:text-[56px] font-semibold text-center lg:text-start lg:py-10 lg:leading-tight">
             {recipes && recipes[0]?.title}
           </h1>

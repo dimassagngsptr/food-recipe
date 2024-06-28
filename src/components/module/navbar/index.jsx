@@ -12,7 +12,7 @@ export const NAVLINK = () => {
     // { title: "Profile", link: "/profile" },
   ];
   return (
-    <main className="flex gap-14 text-main-blue font-semibold px-[10%] py-[4%]">
+    <main className="flex gap-14 text-main-blue font-semibold px-6 py-4 md:px-8 md:py-5 lg:px-[10%] lg:py-[4%]">
       {navLink?.map(({ title, link }) => (
         <Link key={link} className="hover:underline outline-none" href={link}>
           {title}

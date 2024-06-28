@@ -3,7 +3,7 @@ import Link from "next/link";
 
 export const AuthPage = () => {
   return (
-    <div className="absolute lg:relative bg-main-yellow/30 lg:bg-main-yellow/70 min-h-screen -z-10 lg:z-0 w-full lg:w-[40%]">
+    <div className="absolute lg:relative bg-main-yellow/30 lg:bg-main-yellow/70 min-h-[900px] md:min-h-screen -z-10 lg:z-0 w-full lg:w-[40%]">
       <Link
         href={"/"}
         className="hidden lg:flex gap-2 items-center absolute top-5 left-5 lg:left-10 cursor-pointer z-10"
