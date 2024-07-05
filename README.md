@@ -46,7 +46,6 @@ These are the language, framework and packages to building the web
 - [Formik and Yup](https://formik.org/)
 - [Axios](https://axios-http.com/)
 - [Firebase](https://firebase.google.com/)
-- [React Youtube](https://github.com/tjallingt/react-youtube)
 
 ## Getting Started
 
@@ -146,11 +145,11 @@ yarn dev
   </tr>
   <tr>
     <td>Detail Recipe</td>
-    <td>Video Recipe Page</td>
+<!--     <td>Video Recipe Page</td> -->
   </tr>
   <tr>
     <td><img src="./docs/screenshot/detail-recipe-page.png" /></td>
-    <td><img src="/docs/screenshot/youtube-page.png" /></td>
+<!--     <td><img src="/docs/screenshot/youtube-page.png" /></td> -->
   </tr>
   <tr>
     <td>My Recipe</td>
