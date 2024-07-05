@@ -146,25 +146,21 @@ yarn dev
   <tr>
     <td>Detail Recipe</td>
 <!--     <td>Video Recipe Page</td> -->
+     <td>My Recipe</td>
   </tr>
   <tr>
     <td><img src="./docs/screenshot/detail-recipe-page.png" /></td>
+    <td><img src="/docs/screenshot/profile-page.png" /></td>
 <!--     <td><img src="/docs/screenshot/youtube-page.png" /></td> -->
   </tr>
   <tr>
-    <td>My Recipe</td>
+    <td>Like Recipe</td>
     <td>Saved Recipe</td>
   </tr>
   <tr>
-    <td><img src="/docs/screenshot/profile-page.png" /></td>
+     <td><img src="/docs/screenshot/profile-page-3.png" /></td>
     <td><img src="/docs/screenshot/profile-page-2.png" /></td>
   </tr>
-  <tr>
-    <td>Like Recipe</td>
-  </tr>
-  <tr>
-    <td><img src="/docs/screenshot/profile-page-3.png" /></td>
-  </tr> 
 </table>
 
 ### Contributing
